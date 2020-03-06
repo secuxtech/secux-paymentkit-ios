@@ -1,0 +1,23 @@
+PODS:
+  - secux-paymentkit (1.0.0):
+    - SPManager
+  - SPManager (0.0.2)
+
+DEPENDENCIES:
+  - secux-paymentkit (from `../`)
+
+SPEC REPOS:
+  trunk:
+    - SPManager
+
+EXTERNAL SOURCES:
+  secux-paymentkit:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  secux-paymentkit: fa405a5c9a2de88c3c52e85a5f38d42b5b9cedeb
+  SPManager: 90be8b63c4e4440a131b3a2ecd6042cc9d01633b
+
+PODFILE CHECKSUM: 00691713e59b596da8cf2eb6e56d641eb14fc593
+
+COCOAPODS: 1.9.0.beta.2

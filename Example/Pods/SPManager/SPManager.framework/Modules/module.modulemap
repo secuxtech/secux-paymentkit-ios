@@ -1,0 +1,6 @@
+framework module SPManager {
+  umbrella header "SPManager.h"
+
+  export *
+  module * { export * }
+}
