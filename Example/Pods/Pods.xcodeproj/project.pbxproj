@@ -20,28 +20,28 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		119D326D6BD55D156E7DF84E53035076 /* SecuXPaymentManagerBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44BF51376CCE0410180AEF96E1795CD0 /* SecuXPaymentManagerBase.swift */; };
 		23AF53228E2DF9BBEAC16958201DFD4B /* Pods-secux-paymentkit_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = A44216F13A1FFC85921EA179D38DA673 /* Pods-secux-paymentkit_Example-dummy.m */; };
-		2E11C7A3241216FF004BABFA /* SecuXCoinTokenBalance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E11C7A2241216FF004BABFA /* SecuXCoinTokenBalance.swift */; };
-		2E11C7A52412189F004BABFA /* SecuXCoinAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E11C7A42412189F004BABFA /* SecuXCoinAccount.swift */; };
-		2E11C7A724121BA5004BABFA /* SecuXPaymentHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E11C7A624121BA5004BABFA /* SecuXPaymentHistory.swift */; };
-		2E11C7A924122CDA004BABFA /* SecuXTransferHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E11C7A824122CDA004BABFA /* SecuXTransferHistory.swift */; };
-		2E11C7AB24122EC2004BABFA /* SecuXUserAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E11C7AA24122EC2004BABFA /* SecuXUserAccount.swift */; };
-		2EBE45632415EE5900F3862C /* SecuXTransferResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBE45622415EE5900F3862C /* SecuXTransferResult.swift */; };
+		2EBE45B024164D7600F3862C /* SecuXPaymentManagerBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBE45A324164D7600F3862C /* SecuXPaymentManagerBase.swift */; };
+		2EBE45B124164D7600F3862C /* SecuXTransferResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBE45A424164D7600F3862C /* SecuXTransferResult.swift */; };
+		2EBE45B224164D7600F3862C /* SecuXCoinTokenBalance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBE45A524164D7600F3862C /* SecuXCoinTokenBalance.swift */; };
+		2EBE45B324164D7600F3862C /* LogHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBE45A624164D7600F3862C /* LogHandler.swift */; };
+		2EBE45B424164D7600F3862C /* SecuXServerFWRequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBE45A724164D7600F3862C /* SecuXServerFWRequestHandler.swift */; };
+		2EBE45B524164D7600F3862C /* SecuXPaymentHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBE45A824164D7600F3862C /* SecuXPaymentHistory.swift */; };
+		2EBE45B624164D7600F3862C /* SecuXServerRequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBE45A924164D7600F3862C /* SecuXServerRequestHandler.swift */; };
+		2EBE45B724164D7600F3862C /* SecuXAccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBE45AA24164D7600F3862C /* SecuXAccountManager.swift */; };
+		2EBE45B824164D7600F3862C /* RestRequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBE45AB24164D7600F3862C /* RestRequestHandler.swift */; };
+		2EBE45B924164D7600F3862C /* SecuXTransferHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBE45AC24164D7600F3862C /* SecuXTransferHistory.swift */; };
+		2EBE45BA24164D7600F3862C /* SecuXCoinAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBE45AD24164D7600F3862C /* SecuXCoinAccount.swift */; };
+		2EBE45BB24164D7600F3862C /* SecuXPaymentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBE45AE24164D7600F3862C /* SecuXPaymentManager.swift */; };
+		2EBE45BC24164D7600F3862C /* SecuXUserAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBE45AF24164D7600F3862C /* SecuXUserAccount.swift */; };
 		4EEE2FBEE9F6F3259ED76F72FC39A38E /* secux-paymentkit-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CFA39542095CB93D20CF6E3894E6C24 /* secux-paymentkit-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		68758904E0318CC6CBBDB9EE812AF02D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
 		69EF263A4253F289AC4D7372869658CE /* Pods-secux-paymentkit_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 0AF5A9BCFF31B2D457671A48069AD146 /* Pods-secux-paymentkit_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		71B3EFD1B7F85A870FBBD21260156993 /* SecuXPaymentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EE08C718098CBDA46280A476927A5E /* SecuXPaymentManager.swift */; };
-		752C4A3CFE61CE96CD4FAE03DF40325B /* SecuXServerFWRequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C2B5B9053B728E12EB4E6221189577 /* SecuXServerFWRequestHandler.swift */; };
 		81D619924EBB4272B99A2859CD0A89AB /* Pods-secux-paymentkit_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FE0E82A4825CC4C1519150AE4135C3 /* Pods-secux-paymentkit_Tests-dummy.m */; };
 		8F03E56E92CFD9480AEC4A3BC108621F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
 		8FC179A2512FECE17FC1C8A1A0E5AABE /* Pods-secux-paymentkit_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = A8F31E7D4BB8A577666505FC1E8DAD26 /* Pods-secux-paymentkit_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A181D0EC69BDA7474081043A73D776B5 /* RestRequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61E1312A3315CE35D794212268D7A62 /* RestRequestHandler.swift */; };
-		A41BEF39AD54F8974208C79521F3332C /* SecuXServerRequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939B0AA34F0A04BEEFFDFABA31928CA7 /* SecuXServerRequestHandler.swift */; };
-		BE0664056B00332DCA3C144FB2CA717B /* SecuXAccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05D56EF8ADDBF5AD945294682539D88 /* SecuXAccountManager.swift */; };
 		C2425B4F9E56B5C2F043E66E1DCF35CD /* secux-paymentkit-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AEFCED7B0877DB20CDC9AEE28213919 /* secux-paymentkit-dummy.m */; };
 		CB6218320218C8656DB45035FA508165 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
-		F3140D9D4DC901843094547964898EEE /* LogHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1610BAB188F2D893CD90C38E6253A83D /* LogHandler.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,23 +81,28 @@
 		12ECBD709E76DC34FE524A7958904B62 /* Pods-secux-paymentkit_Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-secux-paymentkit_Example-frameworks.sh"; sourceTree = "<group>"; };
 		140E84069C3BEE67973E85E1D5EC0B52 /* Pods-secux-paymentkit_Tests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-secux-paymentkit_Tests-Info.plist"; sourceTree = "<group>"; };
 		1546A4C0526A1B5E8980CA4BF8F66B03 /* Pods-secux-paymentkit_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-secux-paymentkit_Example.debug.xcconfig"; sourceTree = "<group>"; };
-		1610BAB188F2D893CD90C38E6253A83D /* LogHandler.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LogHandler.swift; path = "secux-paymentkit/Classes/LogHandler.swift"; sourceTree = "<group>"; };
 		1620572492ED113014760DB47CD3E6EF /* Pods-secux-paymentkit_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-secux-paymentkit_Tests.modulemap"; sourceTree = "<group>"; };
 		195BA22FD4A2776AC5F10CC9E512B588 /* secux-paymentkit-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "secux-paymentkit-prefix.pch"; sourceTree = "<group>"; };
 		1CFA39542095CB93D20CF6E3894E6C24 /* secux-paymentkit-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "secux-paymentkit-umbrella.h"; sourceTree = "<group>"; };
 		2483C963A26D7CA0F61965F7EADEEBF5 /* Pods-secux-paymentkit_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-secux-paymentkit_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		2814503E559F71765569FCEAB7749D85 /* SPManager.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SPManager.framework; sourceTree = "<group>"; };
 		2D37FDD2C6858E9DBB2C7DB35351A81D /* Pods_secux_paymentkit_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_secux_paymentkit_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		2E11C7A2241216FF004BABFA /* SecuXCoinTokenBalance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecuXCoinTokenBalance.swift; sourceTree = "<group>"; };
-		2E11C7A42412189F004BABFA /* SecuXCoinAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecuXCoinAccount.swift; sourceTree = "<group>"; };
-		2E11C7A624121BA5004BABFA /* SecuXPaymentHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecuXPaymentHistory.swift; sourceTree = "<group>"; };
-		2E11C7A824122CDA004BABFA /* SecuXTransferHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecuXTransferHistory.swift; sourceTree = "<group>"; };
-		2E11C7AA24122EC2004BABFA /* SecuXUserAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecuXUserAccount.swift; sourceTree = "<group>"; };
-		2EBE45622415EE5900F3862C /* SecuXTransferResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecuXTransferResult.swift; sourceTree = "<group>"; };
+		2EBE45A324164D7600F3862C /* SecuXPaymentManagerBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SecuXPaymentManagerBase.swift; path = "secux-paymentkit/Classes/SecuXPaymentManagerBase.swift"; sourceTree = "<group>"; };
+		2EBE45A424164D7600F3862C /* SecuXTransferResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SecuXTransferResult.swift; path = "secux-paymentkit/Classes/SecuXTransferResult.swift"; sourceTree = "<group>"; };
+		2EBE45A524164D7600F3862C /* SecuXCoinTokenBalance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SecuXCoinTokenBalance.swift; path = "secux-paymentkit/Classes/SecuXCoinTokenBalance.swift"; sourceTree = "<group>"; };
+		2EBE45A624164D7600F3862C /* LogHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LogHandler.swift; path = "secux-paymentkit/Classes/LogHandler.swift"; sourceTree = "<group>"; };
+		2EBE45A724164D7600F3862C /* SecuXServerFWRequestHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SecuXServerFWRequestHandler.swift; path = "secux-paymentkit/Classes/SecuXServerFWRequestHandler.swift"; sourceTree = "<group>"; };
+		2EBE45A824164D7600F3862C /* SecuXPaymentHistory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SecuXPaymentHistory.swift; path = "secux-paymentkit/Classes/SecuXPaymentHistory.swift"; sourceTree = "<group>"; };
+		2EBE45A924164D7600F3862C /* SecuXServerRequestHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SecuXServerRequestHandler.swift; path = "secux-paymentkit/Classes/SecuXServerRequestHandler.swift"; sourceTree = "<group>"; };
+		2EBE45AA24164D7600F3862C /* SecuXAccountManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SecuXAccountManager.swift; path = "secux-paymentkit/Classes/SecuXAccountManager.swift"; sourceTree = "<group>"; };
+		2EBE45AB24164D7600F3862C /* RestRequestHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RestRequestHandler.swift; path = "secux-paymentkit/Classes/RestRequestHandler.swift"; sourceTree = "<group>"; };
+		2EBE45AC24164D7600F3862C /* SecuXTransferHistory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SecuXTransferHistory.swift; path = "secux-paymentkit/Classes/SecuXTransferHistory.swift"; sourceTree = "<group>"; };
+		2EBE45AD24164D7600F3862C /* SecuXCoinAccount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SecuXCoinAccount.swift; path = "secux-paymentkit/Classes/SecuXCoinAccount.swift"; sourceTree = "<group>"; };
+		2EBE45AE24164D7600F3862C /* SecuXPaymentManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SecuXPaymentManager.swift; path = "secux-paymentkit/Classes/SecuXPaymentManager.swift"; sourceTree = "<group>"; };
+		2EBE45AF24164D7600F3862C /* SecuXUserAccount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SecuXUserAccount.swift; path = "secux-paymentkit/Classes/SecuXUserAccount.swift"; sourceTree = "<group>"; };
 		3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		38FE0E82A4825CC4C1519150AE4135C3 /* Pods-secux-paymentkit_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-secux-paymentkit_Tests-dummy.m"; sourceTree = "<group>"; };
 		3B5E01C32691847458942BC21DD63931 /* SPManager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SPManager.debug.xcconfig; sourceTree = "<group>"; };
-		44BF51376CCE0410180AEF96E1795CD0 /* SecuXPaymentManagerBase.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SecuXPaymentManagerBase.swift; path = "secux-paymentkit/Classes/SecuXPaymentManagerBase.swift"; sourceTree = "<group>"; };
 		49881F578AE0A403A9E461C8E416269C /* Pods-secux-paymentkit_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-secux-paymentkit_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		4AEFCED7B0877DB20CDC9AEE28213919 /* secux-paymentkit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "secux-paymentkit-dummy.m"; sourceTree = "<group>"; };
 		5156F1E7BAE45CED43834150074987BE /* secux-paymentkit.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "secux-paymentkit.modulemap"; sourceTree = "<group>"; };
@@ -106,8 +111,6 @@
 		615B6E40925E2D6E3F38765C24A2038C /* Pods-secux-paymentkit_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-secux-paymentkit_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		7278F8615B350B253EDF3A47342D6B48 /* Pods_secux_paymentkit_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_secux_paymentkit_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		76721EFDC87675805BB7A2C4F4BBD3DC /* Pods-secux-paymentkit_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-secux-paymentkit_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
-		84C2B5B9053B728E12EB4E6221189577 /* SecuXServerFWRequestHandler.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SecuXServerFWRequestHandler.swift; path = "secux-paymentkit/Classes/SecuXServerFWRequestHandler.swift"; sourceTree = "<group>"; };
-		939B0AA34F0A04BEEFFDFABA31928CA7 /* SecuXServerRequestHandler.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SecuXServerRequestHandler.swift; path = "secux-paymentkit/Classes/SecuXServerRequestHandler.swift"; sourceTree = "<group>"; };
 		93EDE4C11EF9FD8C69E95FC412E0538C /* Pods-secux-paymentkit_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-secux-paymentkit_Example.modulemap"; sourceTree = "<group>"; };
 		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		A44216F13A1FFC85921EA179D38DA673 /* Pods-secux-paymentkit_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-secux-paymentkit_Example-dummy.m"; sourceTree = "<group>"; };
@@ -120,10 +123,7 @@
 		CF1E89C02D3BE9712EF3E7FA56A1BE08 /* SPManager.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SPManager.release.xcconfig; sourceTree = "<group>"; };
 		D0C645EC1D44FE909930B1BD06C436D0 /* secux-paymentkit-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "secux-paymentkit-Info.plist"; sourceTree = "<group>"; };
 		D40CFBE89A43F064DD7984F616C83122 /* Pods-secux-paymentkit_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-secux-paymentkit_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
-		E61E1312A3315CE35D794212268D7A62 /* RestRequestHandler.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RestRequestHandler.swift; path = "secux-paymentkit/Classes/RestRequestHandler.swift"; sourceTree = "<group>"; };
 		ECC4B10010B958B88D688488339CA8C1 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		F05D56EF8ADDBF5AD945294682539D88 /* SecuXAccountManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SecuXAccountManager.swift; path = "secux-paymentkit/Classes/SecuXAccountManager.swift"; sourceTree = "<group>"; };
-		F6EE08C718098CBDA46280A476927A5E /* SecuXPaymentManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SecuXPaymentManager.swift; path = "secux-paymentkit/Classes/SecuXPaymentManager.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -280,19 +280,19 @@
 		D1D2FF0A86AEF5524F8457702CF6462C /* secux-paymentkit */ = {
 			isa = PBXGroup;
 			children = (
-				1610BAB188F2D893CD90C38E6253A83D /* LogHandler.swift */,
-				E61E1312A3315CE35D794212268D7A62 /* RestRequestHandler.swift */,
-				F05D56EF8ADDBF5AD945294682539D88 /* SecuXAccountManager.swift */,
-				F6EE08C718098CBDA46280A476927A5E /* SecuXPaymentManager.swift */,
-				44BF51376CCE0410180AEF96E1795CD0 /* SecuXPaymentManagerBase.swift */,
-				84C2B5B9053B728E12EB4E6221189577 /* SecuXServerFWRequestHandler.swift */,
-				939B0AA34F0A04BEEFFDFABA31928CA7 /* SecuXServerRequestHandler.swift */,
-				2E11C7A2241216FF004BABFA /* SecuXCoinTokenBalance.swift */,
-				2E11C7A42412189F004BABFA /* SecuXCoinAccount.swift */,
-				2E11C7A624121BA5004BABFA /* SecuXPaymentHistory.swift */,
-				2E11C7A824122CDA004BABFA /* SecuXTransferHistory.swift */,
-				2EBE45622415EE5900F3862C /* SecuXTransferResult.swift */,
-				2E11C7AA24122EC2004BABFA /* SecuXUserAccount.swift */,
+				2EBE45A624164D7600F3862C /* LogHandler.swift */,
+				2EBE45AB24164D7600F3862C /* RestRequestHandler.swift */,
+				2EBE45AA24164D7600F3862C /* SecuXAccountManager.swift */,
+				2EBE45AD24164D7600F3862C /* SecuXCoinAccount.swift */,
+				2EBE45A524164D7600F3862C /* SecuXCoinTokenBalance.swift */,
+				2EBE45A824164D7600F3862C /* SecuXPaymentHistory.swift */,
+				2EBE45AE24164D7600F3862C /* SecuXPaymentManager.swift */,
+				2EBE45A324164D7600F3862C /* SecuXPaymentManagerBase.swift */,
+				2EBE45A724164D7600F3862C /* SecuXServerFWRequestHandler.swift */,
+				2EBE45A924164D7600F3862C /* SecuXServerRequestHandler.swift */,
+				2EBE45AC24164D7600F3862C /* SecuXTransferHistory.swift */,
+				2EBE45A424164D7600F3862C /* SecuXTransferResult.swift */,
+				2EBE45AF24164D7600F3862C /* SecuXUserAccount.swift */,
 				044E81CB22CDA920AFD1B5A9DF935A96 /* Pod */,
 				8FD30D1860361DA296864F19CEC64EFE /* Support Files */,
 			);
@@ -425,6 +425,9 @@
 					A4B188BA118C8432A3532A57607E6ED0 = {
 						LastSwiftMigration = 1130;
 					};
+					D92195CF116F442919FED0643FB75768 = {
+						LastSwiftMigration = 1130;
+					};
 				};
 			};
 			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
@@ -493,20 +496,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F3140D9D4DC901843094547964898EEE /* LogHandler.swift in Sources */,
-				2E11C7A52412189F004BABFA /* SecuXCoinAccount.swift in Sources */,
-				2E11C7A924122CDA004BABFA /* SecuXTransferHistory.swift in Sources */,
-				A181D0EC69BDA7474081043A73D776B5 /* RestRequestHandler.swift in Sources */,
-				2EBE45632415EE5900F3862C /* SecuXTransferResult.swift in Sources */,
+				2EBE45BB24164D7600F3862C /* SecuXPaymentManager.swift in Sources */,
+				2EBE45B824164D7600F3862C /* RestRequestHandler.swift in Sources */,
+				2EBE45B624164D7600F3862C /* SecuXServerRequestHandler.swift in Sources */,
+				2EBE45B524164D7600F3862C /* SecuXPaymentHistory.swift in Sources */,
+				2EBE45B024164D7600F3862C /* SecuXPaymentManagerBase.swift in Sources */,
+				2EBE45B324164D7600F3862C /* LogHandler.swift in Sources */,
+				2EBE45B724164D7600F3862C /* SecuXAccountManager.swift in Sources */,
+				2EBE45B124164D7600F3862C /* SecuXTransferResult.swift in Sources */,
+				2EBE45BA24164D7600F3862C /* SecuXCoinAccount.swift in Sources */,
+				2EBE45B224164D7600F3862C /* SecuXCoinTokenBalance.swift in Sources */,
+				2EBE45B924164D7600F3862C /* SecuXTransferHistory.swift in Sources */,
 				C2425B4F9E56B5C2F043E66E1DCF35CD /* secux-paymentkit-dummy.m in Sources */,
-				BE0664056B00332DCA3C144FB2CA717B /* SecuXAccountManager.swift in Sources */,
-				71B3EFD1B7F85A870FBBD21260156993 /* SecuXPaymentManager.swift in Sources */,
-				2E11C7A3241216FF004BABFA /* SecuXCoinTokenBalance.swift in Sources */,
-				2E11C7A724121BA5004BABFA /* SecuXPaymentHistory.swift in Sources */,
-				119D326D6BD55D156E7DF84E53035076 /* SecuXPaymentManagerBase.swift in Sources */,
-				752C4A3CFE61CE96CD4FAE03DF40325B /* SecuXServerFWRequestHandler.swift in Sources */,
-				A41BEF39AD54F8974208C79521F3332C /* SecuXServerRequestHandler.swift in Sources */,
-				2E11C7AB24122EC2004BABFA /* SecuXUserAccount.swift in Sources */,
+				2EBE45B424164D7600F3862C /* SecuXServerFWRequestHandler.swift in Sources */,
+				2EBE45BC24164D7600F3862C /* SecuXUserAccount.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -696,6 +699,7 @@
 			baseConfigurationReference = 52482F459D76DB7E2F5C861142CF2D34 /* secux-paymentkit.debug.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -717,6 +721,7 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -730,6 +735,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -753,6 +759,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -764,6 +772,7 @@
 			baseConfigurationReference = B3349432441EE4FA8047AC8752EB10D9 /* secux-paymentkit.release.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -799,6 +808,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -822,6 +832,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
