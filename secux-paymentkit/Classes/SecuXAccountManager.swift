@@ -9,144 +9,226 @@ import Foundation
 
 open class SecuXAccountManager{
     
-    let secXSvrReqHandler = SecuXServerRequestHandler()
+    let secuXSvrReqHandler = SecuXServerRequestHandler()
     
     public init(){
         
     }
     
-    open func getAccountBalance(account: SecuXAccount) -> (Bool, SecuXAccountBalance?){
+    public func registerUserAccount(userAccount: SecuXUserAccount) -> (SecuXRequestResult, Data?){
+        logw("registerUserAccount")
+        let (ret, data) = secuXSvrReqHandler.userRegister(account: userAccount.name, password: userAccount.password, email: userAccount.email, alias: userAccount.alias, phonenum: userAccount.phone)
         
-        switch account.type{
+        if ret == SecuXRequestResult.SecuXRequestOK, let data=data{
             
-        case .DCT, .IFC:
-            return self.getDCTAccountBalance(account: account)
+            guard let responseJson = try? JSONSerialization.jsonObject(with: data, options: []) as? [String:String] else{
+                return (SecuXRequestResult.SecuXRequestFailed, "Invalid json response from server".data(using: String.Encoding.utf8))
+            }
             
-        
-        default:
-            break
-        }
-        
-        return (false, nil)
-    }
-    
-    
-    open func getAccountHistory(account: SecuXAccount) -> (Bool, [SecuXAccountHistory]){
-        
-        switch account.type{
-
-        case .DCT, .IFC:
-            return self.getDCTAccountHistory(account: account)
-            
-        default:
-            break
-        }
-        
-        return (false, [])
-    }
-    
-    
-    open func getCoinUSDRate() -> [CoinType: Double]{
-        
-        var rateDict: [CoinType: Double] = [:]
-        
-        let (ret, data) = self.secXSvrReqHandler.getCoinCurrency()
-        if ret, let data = data{
-            do{
-                let jsonArr  = try JSONSerialization.jsonObject(with: data, options: []) as! [[String : String]]
-                //print(jsonArr)
+            guard let coinType = responseJson["coinType"],
+                let token = responseJson["symbol"],
+                let balance = responseJson["balance"],
+                let formattedBalance = responseJson["formattedBalance"],
+                let usdBalance = responseJson["balance_usd"],
+                let balDec = Decimal(string:balance),
+                let formattedBalDec = Decimal(string: formattedBalance),
+                let usdBalDec = Decimal(string: usdBalance) else{
                 
-                for json in jsonArr{
-                    
-                    if let type = json["coinType"], let coinType = CoinType(rawValue: type),
-                        let rate = json["usdPrice"], let coinRate = Double(rate){
-                        
-                        rateDict[coinType] = coinRate
-                    }
-
+                return (SecuXRequestResult.SecuXRequestFailed, "Invalid response from server".data(using: String.Encoding.utf8))
+            }
+            
+            
+            let tokenBalance = SecuXCoinTokenBalance(balance: balDec, formattedBalance: formattedBalDec, usdBalance: usdBalDec)
+            
+            var dict = [String:SecuXCoinTokenBalance]()
+            dict["token"] = tokenBalance
+            
+            let _ = SecuXCoinAccount(type: coinType, name: token, tokenBalDict: dict)
+            
+            //userAccount.coinAccountArray = [SecuXCoinAccount]()
+            //userAccount.coinAccountArray.append(coinAccount)
+            
+            
+            return (ret, nil)
+            
+            
+        }
+        
+        return (ret, nil)
+    }
+    
+    public func loginUserAccount(userAccount:SecuXUserAccount) -> (SecuXRequestResult, Data?){
+        logw("loginUserAccount")
+        let (ret, data) = secuXSvrReqHandler.userLogin(account: userAccount.name, password: userAccount.password)
+        if ret == SecuXRequestResult.SecuXRequestOK, let data = data{
+           
+            guard let responseJson = try? JSONSerialization.jsonObject(with: data, options: []) as? [String:Any] else{
+                return (SecuXRequestResult.SecuXRequestFailed, "Invalid json response from server".data(using: String.Encoding.utf8))
+            }
+            
+            guard let coinType = responseJson["coinType"] as? String,
+                let token = responseJson["symbol"] as? String,
+                let balance = responseJson["balance"]  as? Double,
+                let formattedBalance = responseJson["formattedBalance"] as? Double,
+                let usdBalance = responseJson["balance_usd"] as? Double else{
+                
+                
+                return (SecuXRequestResult.SecuXRequestFailed, "Invalid response from server".data(using: String.Encoding.utf8))
+            }
+            
+            
+            let balDec = Decimal(balance)
+            let formattedBalDec = Decimal(formattedBalance)
+            let usdBalDec = Decimal(usdBalance)
+            
+            let tokenBalance = SecuXCoinTokenBalance(balance: balDec, formattedBalance: formattedBalDec, usdBalance: usdBalDec)
+            
+            var dict = [String:SecuXCoinTokenBalance]()
+            dict["token"] = tokenBalance
+            
+            let coinAccount = SecuXCoinAccount(type: coinType, name: token, tokenBalDict: dict)
+            
+            userAccount.coinAccountArray = [SecuXCoinAccount]()
+            userAccount.coinAccountArray.append(coinAccount)
+            
+            return (ret, nil)
+            
+        }
+        
+        return (ret, nil)
+    }
+    
+    public func handleAccounTokenBalance(userAccount:SecuXUserAccount, json: [String:Any]) -> (SecuXRequestResult, Data?){
+      
+        logw("handleAccounTokenBalance")
+        guard let coinType = json["coinType"] as? String,
+             let token = json["symbol"] as? String,
+             let accname = json["accountName"] as? String,
+             let balance = json["balance"] as? Double,
+             let formattedBalance = json["formattedBalance"] as? Double,
+             let usdBalance = json["balance_usd"] as? Double else{
+             
+             return (SecuXRequestResult.SecuXRequestFailed, "Invalid response from server".data(using: String.Encoding.utf8))
+        }
+         
+        logw("coinType=\(coinType) token=\(token) balance=\(balance)")
+        
+        let balDec = Decimal(balance)
+        let formattedBalDec = Decimal(formattedBalance)
+        let usdBalDec = Decimal(usdBalance)
+        let tokenBalance = SecuXCoinTokenBalance(balance: balDec, formattedBalance: formattedBalDec, usdBalance: usdBalDec)
+        
+        let coinAccArr = userAccount.getCoinAccount(coinType: coinType)
+        if coinAccArr.count > 0{
+            for coinAcc in coinAccArr{
+                if coinAcc.updateTokenBalance(token: token, tokenBal: tokenBalance){
+                    coinAcc.accountName = accname;
+                    break
                 }
-
-            }catch{
-                logw("updateCoinCurrencyAction error: " + error.localizedDescription)
             }
         }else{
-            logw("updateCoinCurrencyAction failed")
+            var dict = [String : SecuXCoinTokenBalance]()
+            dict[token] = tokenBalance
+            let coinAcc = SecuXCoinAccount(type: coinType, name: accname, tokenBalDict: dict)
+            userAccount.addCoinAccount(coinAcc: coinAcc)
+            
         }
-        
-        return rateDict
+        return (SecuXRequestResult.SecuXRequestOK, nil)
     }
     
-    
-    private func getDCTAccountBalance(account: SecuXAccount) -> (Bool, SecuXAccountBalance?){
-        logw("getDCTAccountBalance \(account.name)")
-        
-        if account.name.count == 0{
-           return (false, nil)
-        }
-        
-        let param = ["coinType": account.type.rawValue, "pubKey":"\(account.name)"]
-        let (ret, data) = self.secXSvrReqHandler.getAccountBalance(param: param)
-        if ret, let balInfo = data{
-        
-            return self.handleAccountBalanceData(account: account, accInfo: balInfo)
+    public func getAccountBalance(userAccount:SecuXUserAccount, coinType: String? = nil, token: String? = nil) -> (SecuXRequestResult, Data?){
+        logw("getAccountBalance")
+        if let ctype = coinType, let token = token{
+            let (ret, data) = secuXSvrReqHandler.getAccountBalance(coinType: ctype, token: token)
             
+            if ret == SecuXRequestResult.SecuXRequestOK, let data = data{
+                
+                guard let responseJson = try? JSONSerialization.jsonObject(with: data, options: []) as? [String:Any] else{
+                    return (SecuXRequestResult.SecuXRequestFailed, "Invalid json response from server".data(using: String.Encoding.utf8))
+                }
+                
+                return handleAccounTokenBalance(userAccount: userAccount, json: responseJson)
+            }
+           
         }else{
-            logw("getDCTAccountBalance \(account.name) failed")
+            let (ret, data) = secuXSvrReqHandler.getAccountBalance();
+            
+            if ret == SecuXRequestResult.SecuXRequestOK, let data = data{
+                
+                guard let responseJsonArr = try? JSONSerialization.jsonObject(with: data, options: []) as? [[String:Any]] else{
+                    return (SecuXRequestResult.SecuXRequestFailed, "Invalid json response from server".data(using: String.Encoding.utf8))
+                }
+                
+                for json in responseJsonArr{
+                    let (result, errorData) = handleAccounTokenBalance(userAccount: userAccount, json: json)
+                    if result != SecuXRequestResult.SecuXRequestOK{
+                        return (result, errorData)
+                    }
+                }
+                
+                return (ret, nil)
+                    
+               
+            }
+        
+            return (ret, data)
         }
         
-        return (false, nil)
+        return (SecuXRequestResult.SecuXRequestFailed, nil)
     }
     
-    private func getDCTAccountHistory(account: SecuXAccount) -> (Bool, [SecuXAccountHistory]){
-        logw("getDCTAccountHistory \(account.name)")
-        if account.name.count == 0{
-           return (false, [])
+    
+    public func doTransfer(coinType:String, token:String, feeSymbol:String,
+                           amount:String, receiver:String) ->(SecuXRequestResult, Data?, SecuXTransferResult?){
+        logw("doTransfer")
+        let (ret, data) = secuXSvrReqHandler.doTransfer(coinType: coinType, token: token, feesymbol: feeSymbol, receiver: receiver, amount: amount)
+        if ret == SecuXRequestResult.SecuXRequestOK, let data = data{
+            guard let responseJson = try? JSONSerialization.jsonObject(with: data, options: []) as? [String:Any] else{
+                return (SecuXRequestResult.SecuXRequestFailed, "Invalid json response from server".data(using: String.Encoding.utf8), nil)
+            }
+            
+            guard let statusCode = responseJson["statusCode"] as? Int else{
+                    return (SecuXRequestResult.SecuXRequestFailed, "Response has no statusCode".data(using:String.Encoding.utf8), nil)
+            }
+            
+            if statusCode != 200{
+                if let statusDesc = responseJson["statusDesc"] as? String{
+                    return (SecuXRequestResult.SecuXRequestFailed, statusDesc.data(using: String.Encoding.utf8), nil)
+                }else{
+                    return (SecuXRequestResult.SecuXRequestFailed, "No error description".data(using: String.Encoding.utf8), nil)
+                }
+            }
+            
+            guard let txID = responseJson["txId"] as? String, let detailsUrl = responseJson["detailsUrl"] as? String else {
+                return (SecuXRequestResult.SecuXRequestFailed, "Response has no txID/details URL".data(using:String.Encoding.utf8), nil)
+            }
+            
+            
+            let transRet = SecuXTransferResult()
+            transRet.txID = txID
+            transRet.detailsUrl = detailsUrl
+            return (ret, nil, transRet)
         }
-
-        let param = ["coinType": "DCT", "pubKey":"\(account.name)"]
-        let (ret, data) = self.secXSvrReqHandler.getAccountHistory(param: param)
-        if ret, let accInfo = data{
         
-            return self.handleAccountHistoryData(account: account, accInfo: accInfo)
-        }else{
-            logw("getDCTAccountHistory \(account.name) failed")
-        }
-        return (false, [])
+        return (ret, data, nil)
     }
     
-
-    
-    private func handleAccountBalanceData(account: SecuXAccount, accInfo: Data) -> (Bool, SecuXAccountBalance?){
-        
-        let decoder = JSONDecoder()
-        do{
+    public func getTransferHistory(coinType:String, token:String, page:Int, count:Int)->(SecuXRequestResult, [SecuXTransferHistory]){
+        logw("getTransferHistory")
+        var historyArr = [SecuXTransferHistory]()
+        let (ret, data) = secuXSvrReqHandler.getTransferHistory(cointType: coinType, token: token, page: page, pageItemCount: count)
+        if ret == SecuXRequestResult.SecuXRequestOK, let data = data{
             
-            let balance = try decoder.decode(SecuXAccountBalance.self, from: accInfo)
-            return (true, balance)
+            guard let responseJsonArr = try? JSONSerialization.jsonObject(with: data, options: []) as? [[String:Any]] else{
+                return (SecuXRequestResult.SecuXRequestFailed, historyArr)
+            }
             
-            
-        }catch{
-            logw("handleAccountBalanceData error: " + error.localizedDescription)
+            for json in responseJsonArr{
+                let history = SecuXTransferHistory(hisJson: json)
+                historyArr.append(history)
+            }
         }
         
-        return (false, nil)
-    }
-    
-    private func handleAccountHistoryData(account: SecuXAccount, accInfo: Data) -> (Bool, [SecuXAccountHistory]){
-        let decoder = JSONDecoder()
-   
-        do {
-            
-            let accHistory = try decoder.decode([SecuXAccountHistory].self, from: accInfo)
-            return (true, accHistory)
-            
-            
-            
-        } catch let e {
-            logw("handleAccountHistoryData error: " + e.localizedDescription)
-        }
-        
-        
-        return (false, [])
+        return (ret, historyArr)
     }
 }

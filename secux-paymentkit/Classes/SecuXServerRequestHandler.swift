@@ -11,72 +11,6 @@ import Foundation
 
 class SecuXServerRequestHandler: RestRequestHandler {
     
-    /*
-    let balanceSvrUrl = "https://pmsweb.secuxtech.com/Account/GetAccountBalance"
-    let addrBalanceSvrUrl = "https://pmsweb.secuxtech.com/Account/GetAccountBalanceByAddr"
-    
-    let historySvrUrl = "https://pmsweb.secuxtech.com/Transaction/GetTxHistory"
-    let addrHistorySvrUrl = "https://pmsweb.secuxtech.com/Transaction/GetTxHistoryByAddr"
-    
-    let currencySvrUrl = "https://pmsweb.secuxtech.com/Common/GetCryptocurrencySetting"
-    
-    let networkFeeSvrUrl = "https://pmsweb.secuxtech.com/Common/GetNetworkFee"
-    
-    let paymentSvrUrl = "https://pmsweb.secuxtech.com/Transaction/Payment"
-    
-    let swTransDataSvrUrl = "https://pmsweb.secuxtech.com/Transaction/GetSWTransactionData"
-    let hwTransDataSvrUrl = "https://pmsweb.secuxtech.com/Transaction/GetHWTransactionData"
-    let broadcastTransSvrUrl = "https://pmsweb.secuxtech.com/Transaction/Transfer"
-    
-    let getAccountInfoSvrUrl = "https://pmsweb.secuxtech.com/Account/GetAccountInfo"
-    */
-    
-    
-    func getCoinCurrency() -> (Bool, Data?){
-        return (false, nil)
-    }
-    
-    func getAccountBalanceByAddr(param: Any) -> (Bool, Data?){
-        return (false, nil)
-    }
-    
-    func getAccountBalance(param: Any) -> (Bool, Data?){
-        return (false, nil)
-    }
-    
-    func getAccountHistoryByAddr(param: Any) -> (Bool, Data?){
-        return (false, nil)
-    }
-    
-    func getAccountHistory(param: Any) -> (Bool, Data?){
-        return (false, nil)
-    }
-    
-    func doPayment(param: Any) -> (Bool, Data?){
-        return (false, nil)
-    }
-    
-    func getSWTransactionData(param: Any) -> (Bool, Data?){
-        return (false, nil)
-    }
-    
-    func getHWTransactionData(param: Any) -> (Bool, Data?){
-        return (false, nil)
-    }
-    
-    func broadcastTransactionSign(param: Any) -> (Bool, Data?){
-        return (false, nil)
-    }
-    
-    func getNetworkFee() -> (Bool, Data?){
-        return (false, nil)
-    }
-    
-    func getAccountInfo(param: Any) -> (Bool, Data?){
-        return (false, nil)
-    }
-    
-    
     static let baseURL = "https://pmsweb-test.secux.io";
     static let adminLoginUrl = baseURL + "/api/Admin/Login";
     static let registerUrl = baseURL + "/api/Consumer/Register";
@@ -112,18 +46,27 @@ class SecuXServerRequestHandler: RestRequestHandler {
         return self.postRequestSync(urlstr: SecuXServerRequestHandler.registerUrl, param: param, token: token, withTimeout: 30000);
     }
     
-    func userLogin(account: String, password: String) -> Bool{
+    func userLogin(account: String, password: String) -> (SecuXRequestResult, Data?){
         logw("userLogin")
         let param = ["account": account, "password":password]
-        let (ret, data) = self.postRequestSync(urlstr: SecuXServerRequestHandler.adminLoginUrl, param: param)
-        guard ret == SecuXRequestResult.SecuXRequestOK, let tokenData = data,
-            let token = String(data: tokenData, encoding: String.Encoding.utf8) else{
+        let (ret, data) = self.postRequestSync(urlstr: SecuXServerRequestHandler.userLoginUrl, param: param)
+        
+        guard ret == SecuXRequestResult.SecuXRequestOK, let replyData = data else{
             
-                return false
+            return (SecuXRequestResult.SecuXRequestNoToken, nil)
         }
         
+        guard let json = try? JSONSerialization.jsonObject(with: replyData, options: []) as? [String: Any] else{
+            return (SecuXRequestResult.SecuXRequestFailed, "Invalid response json".data(using: String.Encoding.utf8))
+        }
+        
+        guard let token = json["token"] as? String else{
+            return (SecuXRequestResult.SecuXRequestFailed, "Response has no token".data(using: String.Encoding.utf8))
+        }
+        
+        
         SecuXServerRequestHandler.theToken = token
-        return true
+        return (ret, data)
     }
     
     func getAccountBalance(coinType: String = "", token: String = "") ->(SecuXRequestResult, Data?){
@@ -163,13 +106,11 @@ class SecuXServerRequestHandler: RestRequestHandler {
             return (SecuXRequestResult.SecuXRequestNoToken, nil)
         }
         
-        
         if let data = paymentInfo.data(using: .utf8) {
             do {
                 if let param = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]{
                     return self.postRequestSync(urlstr: SecuXServerRequestHandler.getDeviceInfoUrl, param: param, token: SecuXServerRequestHandler.theToken)
                 }
-                
             } catch {
                 print(error.localizedDescription)
             }

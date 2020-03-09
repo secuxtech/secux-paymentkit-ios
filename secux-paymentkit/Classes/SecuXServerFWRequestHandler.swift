@@ -9,7 +9,7 @@
 import Foundation
 
 
-open class SecuXServerFWRequestHandler: RestRequestHandler {
+class SecuXServerFWRequestHandler: RestRequestHandler {
     
     static let BaseSvrUrl = "https://pmsweb-test.secux.io/api/"
     static let LoginUrl = BaseSvrUrl + "Admin/Login"

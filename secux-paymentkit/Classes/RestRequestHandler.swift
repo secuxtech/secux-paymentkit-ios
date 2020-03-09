@@ -130,18 +130,22 @@ open class RestRequestHandler {
                     taskRet = SecuXRequestResult.SecuXRequestOK
                   
                 }else if response.statusCode == 401{
-                 
+                    logw("Error: Unauthorized request")
                     taskRet = SecuXRequestResult.SecuXRequestUnauthorized
                     
                 }else{
-                  logw("url request response \(request) \(response.statusCode)")
-                  if let bodyData = request.httpBody,
-
-                      let dataStr = String(data: bodyData, encoding: String.Encoding.utf8){
-                      logw("\(dataStr)")
-                  }
-                  
-              }
+                    logw("Error: \(error?.localizedDescription ?? "") url request response \(request) \(response.statusCode)")
+                    
+                    if let url = request.url{
+                        logw("request url = \(url)")
+                    }
+                    
+                    if let bodyData = request.httpBody, let dataStr = String(data: bodyData, encoding: String.Encoding.utf8){
+                        logw("\(dataStr)")
+                        
+                    }
+                    
+                }
           }
 
           taskDG.leave()

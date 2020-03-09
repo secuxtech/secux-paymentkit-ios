@@ -10,13 +10,7 @@ import Foundation
 import CoreNFC
 import SPManager
 
-public enum SecuXPaymentManagerRequestResult{
-    
-    case RequestResult(value: SecuXRequestResult)
-    case GenerateStoreLogoFailed
-    case InvalidStoreInfo
 
-}
 
 class PaymentInfo {
     var coinType: String = ""
@@ -26,12 +20,12 @@ class PaymentInfo {
     var ivKey: String = ""
     
     init?(infoStr: String) {
-        logw("init PaymentInfo from " + infoStr)
+        logw("init PaymentInfo from " ) //+ infoStr)
         if let data = infoStr.data(using: .utf8) {
             do {
-                if let infoJson = try JSONSerialization.jsonObject(with: data, options: []) as? [String: String],
-                   let coinType = infoJson["coinType"], let token = infoJson["token"], let devID = infoJson["deviceID"],
-                    let amount = infoJson["amount"]{
+                if let infoJson = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any?],
+                   let coinType = infoJson["coinType"] as? String, let token = infoJson["token"] as? String,
+                   let devID = infoJson["deviceID"] as? String, let amount = infoJson["amount"] as? String{
                     
                     self.coinType = coinType
                     self.token = token
@@ -64,7 +58,7 @@ class PaymentDevConfigInfo{
         logw("init PaymentDevConfigInfo from " + storeInfo)
         if let data = storeInfo.data(using: .utf8) {
             do {
-                if let infoJson = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                if let infoJson = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any?],
                    let code = infoJson["storeCode"] as? String, let name = infoJson["name"] as? String,
                     let devID = infoJson["deviceId"] as? String, let sto = infoJson["scanTimeout"] as? Int,
                     let cto = infoJson["connectionTimeout"] as? Int, let rssi = infoJson["checkRSSI"] as? Int{
@@ -100,7 +94,7 @@ open class SecuXPaymentManager: SecuXPaymentManagerBase {
         super.init()
     }
     
-    open func getStoreInfo(devID:String) -> (SecuXPaymentManagerRequestResult, String, UIImage?){
+    open func getStoreInfo(devID:String) -> (SecuXRequestResult, String, UIImage?){
         
         let (ret, data) = self.secXSvrReqHandler.getStoreInfo(devID: devID)
         if ret == SecuXRequestResult.SecuXRequestOK, let storeInfo = data{
@@ -110,41 +104,37 @@ open class SecuXPaymentManager: SecuXPaymentManagerBase {
                 if let imgStr = json["icon"] as? String{
                     
                     if let url = URL(string: imgStr),let data = try? Data(contentsOf: url),let image = UIImage(data: data) {
-                        return (SecuXPaymentManagerRequestResult.RequestResult(value: ret), json.description, image)
+
+                        return (ret, String(data: storeInfo, encoding: String.Encoding.utf8) ?? "", image)
                     }else{
                         logw("generate store logo img failed!")
-                        return (SecuXPaymentManagerRequestResult.GenerateStoreLogoFailed, "", nil)
+                        return (SecuXRequestResult.SecuXRequestFailed, "generate store logo img failed", nil)
                     }
                     
                 }else{
                     logw("getStoreInfo no icon  \(json)")
-                    return (SecuXPaymentManagerRequestResult.InvalidStoreInfo, "", nil)
+                    return (SecuXRequestResult.SecuXRequestFailed, "Response has no icon info.", nil)
                 }
                 
             }catch{
                 logw("getAccountInfo error: " + error.localizedDescription)
-                return (SecuXPaymentManagerRequestResult.InvalidStoreInfo, "", nil)
+                return (SecuXRequestResult.SecuXRequestFailed, "Response json invalid", nil)
             }
             
         }
             
-        return (SecuXPaymentManagerRequestResult.RequestResult(value: ret), "", nil)
+        return (ret, "", nil)
         
     }
     
-    open func getDeviceInfo(paymentInfo: String)->(SecuXPaymentManagerRequestResult, String){
+    open func getPaymentInfo(paymentInfo: String)->(SecuXRequestResult, Data?){
        
         let (ret, data) = self.secXSvrReqHandler.getDeviceInfo(paymentInfo: paymentInfo)
-        if ret==SecuXRequestResult.SecuXRequestOK, let infoData = data,
-            let infoStr = String(data: infoData, encoding: String.Encoding.utf8) {
-            return (SecuXPaymentManagerRequestResult.RequestResult(value: ret), infoStr)
-        }else{
-            return (SecuXPaymentManagerRequestResult.RequestResult(value: ret), "")
-        }
+        return (ret, data)
         
     }
     
-    open func getPaymentHistory(token:String, pageIdx:Int, pageItemCount: Int)->(SecuXPaymentManagerRequestResult, [SecuXPaymentHistory]){
+    open func getPaymentHistory(token:String, pageIdx:Int, pageItemCount: Int)->(SecuXRequestResult, [SecuXPaymentHistory]){
         var historyArray = [SecuXPaymentHistory]()
         
         let (ret, data) = self.secXSvrReqHandler.getPaymentHistory(token: token, pageIdx: pageIdx, pageItemCount: pageItemCount)
@@ -159,15 +149,15 @@ open class SecuXPaymentManager: SecuXPaymentManagerBase {
                     }
                 }
                 
-                return (SecuXPaymentManagerRequestResult.RequestResult(value: ret), historyArray)
+                return (ret, historyArray)
                 
             }catch{
                 logw("getAccountInfo error: " + error.localizedDescription)
-                return (SecuXPaymentManagerRequestResult.InvalidStoreInfo, historyArray)
+                return (SecuXRequestResult.SecuXRequestFailed, historyArray)
             }
         }
         
-        return (SecuXPaymentManagerRequestResult.RequestResult(value: ret), historyArray)
+        return (ret, historyArray)
     }
 
     open func doPaymentAsync(storeInfo: String, paymentInfo: String){
