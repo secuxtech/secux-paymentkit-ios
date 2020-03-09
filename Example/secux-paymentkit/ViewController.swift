@@ -33,7 +33,7 @@ class ViewController: UIViewController {
     
     //Try account related functions
     func doAccountActions(){
-        theUserAccount = SecuXUserAccount(email: "maochuntest6@secuxtech.com", phone: "0975123456", password: "12345678")
+        theUserAccount = SecuXUserAccount(email: "maochuntest7@secuxtech.com", phone: "0975123456", password: "12345678")
         
         //Login test
         var (ret, data) = accountManager.loginUserAccount(userAccount: theUserAccount!)
