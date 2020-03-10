@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
   s.name             = 'secux-paymentkit'
   s.version          = '1.0.0'
-  s.summary          = 'A short description of secux-paymentkit.'
+  s.summary          = 'secux-paymentkit for SecuX P20/P22'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -21,14 +21,14 @@ Pod::Spec.new do |s|
 TODO: Add long description of the pod here.
                        DESC
 
-  s.homepage         = 'https://github.com/maochuns/secux-paymentkit'
+  s.homepage         = 'https://www.secuxtech.com'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'maochuns' => 'maochuns.sun@gmail.com' }
-  s.source           = { :git => 'https://github.com/maochuns/secux-paymentkit.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/secuxtech/secux-paymentkit-ios.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '12.0'
 
   s.source_files = 'secux-paymentkit/Classes/**/*'
   
@@ -41,5 +41,5 @@ TODO: Add long description of the pod here.
   # s.dependency 'AFNetworking', '~> 2.3'
   
   s.static_framework = true
-  s.dependency 'SPManager'
+  s.dependency 'SPManager', '~> 0.0.2'
 end
