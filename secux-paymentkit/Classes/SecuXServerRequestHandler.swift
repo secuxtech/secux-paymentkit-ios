@@ -31,7 +31,15 @@ class SecuXServerRequestHandler: RestRequestHandler {
         let param = ["account": "secux_register", "password":"!secux_register@123"]
         let (ret, data) = self.postRequestSync(urlstr: SecuXServerRequestHandler.adminLoginUrl, param: param)
         if ret == SecuXRequestResult.SecuXRequestOK, let tokenData = data{
-            return String(data: tokenData, encoding: String.Encoding.utf8)
+            
+            guard let json = try? JSONSerialization.jsonObject(with: tokenData, options: []) as? [String: Any] else{
+                return nil
+            }
+            
+            if let token = json["token"] as? String {
+                return token
+            }
+            
         }
         return nil;
     }
@@ -42,7 +50,7 @@ class SecuXServerRequestHandler: RestRequestHandler {
             return (SecuXRequestResult.SecuXRequestNoToken, nil);
         }
         
-        let param = ["account": account, "password": password, "email":email, "alias":alias, "tel":phonenum, "optional":[]] as [String : Any];
+        let param = ["account": account, "password": password, "email":email, "alias":alias, "tel":phonenum, "optional":"{}"] as [String : Any];
         return self.postRequestSync(urlstr: SecuXServerRequestHandler.registerUrl, param: param, token: token, withTimeout: 30000);
     }
     

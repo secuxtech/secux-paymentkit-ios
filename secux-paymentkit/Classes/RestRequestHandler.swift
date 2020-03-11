@@ -145,6 +145,12 @@ open class RestRequestHandler {
                         
                     }
                     
+                    if let data = data, let dataStr = String(data: data, encoding: String.Encoding.utf8){
+                        logw("\(dataStr)")
+                        
+                        dataRet = data
+                    }
+                    
                 }
           }
 

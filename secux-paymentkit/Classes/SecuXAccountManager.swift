@@ -21,40 +21,42 @@ open class SecuXAccountManager{
         
         if ret == SecuXRequestResult.SecuXRequestOK, let data=data{
             
-            guard let responseJson = try? JSONSerialization.jsonObject(with: data, options: []) as? [String:String] else{
+            guard let _ = try? JSONSerialization.jsonObject(with: data, options: []) as? [String:Any] else{
                 return (SecuXRequestResult.SecuXRequestFailed, "Invalid json response from server".data(using: String.Encoding.utf8))
             }
             
-            guard let coinType = responseJson["coinType"],
-                let token = responseJson["symbol"],
-                let balance = responseJson["balance"],
-                let formattedBalance = responseJson["formattedBalance"],
-                let usdBalance = responseJson["balance_usd"],
-                let balDec = Decimal(string:balance),
-                let formattedBalDec = Decimal(string: formattedBalance),
-                let usdBalDec = Decimal(string: usdBalance) else{
+            /*
+            guard let coinType = responseJson["coinType"] as? String,
+                let token = responseJson["symbol"] as? String,
+                let balance = responseJson["balance"] as? Double,
+                let formattedBalance = responseJson["formattedBalance"] as? Double,
+                let usdBalance = responseJson["balance_usd"] as? Double else{
                 
                 return (SecuXRequestResult.SecuXRequestFailed, "Invalid response from server".data(using: String.Encoding.utf8))
             }
             
+            let balDec = Decimal(balance)
+            let formattedBalDec = Decimal(formattedBalance)
+            let usdBalDec = Decimal(usdBalance)
             
             let tokenBalance = SecuXCoinTokenBalance(balance: balDec, formattedBalance: formattedBalDec, usdBalance: usdBalDec)
             
             var dict = [String:SecuXCoinTokenBalance]()
-            dict["token"] = tokenBalance
+            dict[token] = tokenBalance
             
             let _ = SecuXCoinAccount(type: coinType, name: token, tokenBalDict: dict)
             
             //userAccount.coinAccountArray = [SecuXCoinAccount]()
             //userAccount.coinAccountArray.append(coinAccount)
             
+            */
             
             return (ret, nil)
             
             
         }
         
-        return (ret, nil)
+        return (ret, data)
     }
     
     public func loginUserAccount(userAccount:SecuXUserAccount) -> (SecuXRequestResult, Data?){
@@ -76,26 +78,31 @@ open class SecuXAccountManager{
                 return (SecuXRequestResult.SecuXRequestFailed, "Invalid response from server".data(using: String.Encoding.utf8))
             }
             
-            
+        
             let balDec = Decimal(balance)
             let formattedBalDec = Decimal(formattedBalance)
             let usdBalDec = Decimal(usdBalance)
             
+            if let phone = responseJson["tel"], let phoneStr = phone as? String{
+                userAccount.phone = phoneStr
+            }
+            
             let tokenBalance = SecuXCoinTokenBalance(balance: balDec, formattedBalance: formattedBalDec, usdBalance: usdBalDec)
             
             var dict = [String:SecuXCoinTokenBalance]()
-            dict["token"] = tokenBalance
+            dict[token] = tokenBalance
             
             let coinAccount = SecuXCoinAccount(type: coinType, name: token, tokenBalDict: dict)
             
             userAccount.coinAccountArray = [SecuXCoinAccount]()
-            userAccount.coinAccountArray.append(coinAccount)
+            //userAccount.coinAccountArray.append(coinAccount)
+            
             
             return (ret, nil)
             
         }
         
-        return (ret, nil)
+        return (ret, data)
     }
     
     public func handleAccounTokenBalance(userAccount:SecuXUserAccount, json: [String:Any]) -> (SecuXRequestResult, Data?){
@@ -149,6 +156,8 @@ open class SecuXAccountManager{
                 
                 return handleAccounTokenBalance(userAccount: userAccount, json: responseJson)
             }
+            
+            return (ret, data)
            
         }else{
             let (ret, data) = secuXSvrReqHandler.getAccountBalance();
