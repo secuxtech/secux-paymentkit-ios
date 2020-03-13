@@ -164,6 +164,18 @@ class SecuXServerRequestHandler: RestRequestHandler {
         return self.postRequestSync(urlstr: SecuXServerRequestHandler.paymentHistoryUrl, param: param, token: SecuXServerRequestHandler.theToken)
     }
     
+    
+    func getPaymentHistory(token: String, transactionCode: String)->(SecuXRequestResult, Data?){
+        logw("getPaymentHistory")
+        if SecuXServerRequestHandler.theToken.count == 0{
+            logw("no token")
+            return (SecuXRequestResult.SecuXRequestNoToken, nil)
+        }
+        
+        let param = ["symbol":token, "page":1, "count":10, "columnName":"", "sorting":"", "transactionCode":transactionCode] as [String : Any]
+        return self.postRequestSync(urlstr: SecuXServerRequestHandler.paymentHistoryUrl, param: param, token: SecuXServerRequestHandler.theToken)
+    }
+    
     func getTransferHistory(cointType: String, token: String, page: Int, pageItemCount: Int)->(SecuXRequestResult, Data?){
         logw("getTransferHistory")
         

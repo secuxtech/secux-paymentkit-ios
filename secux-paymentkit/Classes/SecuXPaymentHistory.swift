@@ -13,6 +13,8 @@ public class SecuXPaymentHistory{
     
     public var storeID : Int = 0
     public var storeName : String = ""
+    public var storeTel : String = ""
+    public var storeAddress : String = ""
     
     public var userAccountName : String = ""
     public var transactionCode : String = ""
@@ -42,6 +44,8 @@ public class SecuXPaymentHistory{
                 self.theID = hisJson["id"] as! Int
                 self.storeID = hisJson["storeID"] as! Int
                 self.storeName = hisJson["storeName"] as! String
+                self.storeTel = hisJson["storeTel"] as! String
+                self.storeAddress = hisJson["storeAddress"] as! String
                 self.userAccountName = hisJson["account"] as! String
                 self.transactionCode = hisJson["transactionCode"] as! String
                 self.transactionType = hisJson["transactionType"] as! String
@@ -69,6 +73,8 @@ public class SecuXPaymentHistory{
         guard let id = hisJson["id"] as? Int,
             let storeID = hisJson["storeID"] as? Int,
             let storeName = hisJson["storeName"] as? String,
+            let storeTel = hisJson["storeTel"] as? String,
+            let storeAddress = hisJson["storeAddress"] as? String,
             let userAccountName = hisJson["account"] as? String,
             let transactionCode = hisJson["transactionCode"] as? String,
             let transactionType = hisJson["transactionType"] as? String,
@@ -87,6 +93,8 @@ public class SecuXPaymentHistory{
         self.theID = id
         self.storeID = storeID
         self.storeName = storeName
+        self.storeTel = storeTel
+        self.storeAddress = storeAddress
         self.userAccountName = userAccountName
         self.transactionCode = transactionCode
         self.transactionType = transactionType

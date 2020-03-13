@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'secux-paymentkit'
-  s.version          = '1.0.0'
+  s.version          = '1.0.2'
   s.summary          = 'secux-paymentkit for SecuX P20/P22'
   s.swift_version    = '5.0'
 

@@ -84,7 +84,7 @@ class PaymentDevConfigInfo{
 }
 
 public protocol SecuXPaymentManagerDelegate{
-    func paymentDone(ret: Bool, errorMsg: String)
+    func paymentDone(ret: Bool, transactionCode:String, errorMsg: String)
     func updatePaymentStatus(status: String)
 }
 
@@ -158,6 +158,29 @@ open class SecuXPaymentManager: SecuXPaymentManagerBase {
         }
         
         return (ret, historyArray)
+    }
+    
+    open func getPaymentHistory(token:String, transactionCode:String)->(SecuXRequestResult, SecuXPaymentHistory?){
+        
+        let (ret, data) = self.secXSvrReqHandler.getPaymentHistory(token: token, transactionCode: transactionCode)
+        if ret==SecuXRequestResult.SecuXRequestOK, let hisData = data {
+            do{
+                let jsonArr  = try JSONSerialization.jsonObject(with: hisData, options: []) as! [[String : Any]]
+                for hisJson in jsonArr{
+                    if let paymentHis = SecuXPaymentHistory.init(hisJson: hisJson){
+                        return (ret, paymentHis)
+                    }else{
+                        logw("Invalid payment history item")
+                    }
+                }
+                
+            }catch{
+                logw("getAccountInfo error: " + error.localizedDescription)
+                return (SecuXRequestResult.SecuXRequestFailed, nil)
+            }
+        }
+        
+        return (ret, nil)
     }
 
     open func doPaymentAsync(storeInfo: String, paymentInfo: String){

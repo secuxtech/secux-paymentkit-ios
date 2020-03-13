@@ -180,11 +180,17 @@ class ViewController: UIViewController {
 extension ViewController: SecuXPaymentManagerDelegate{
     
     //Called when payment is completed. Returns payment result and error message.
-    func paymentDone(ret: Bool, errorMsg: String) {
-        print("paymentDone \(ret) \(errorMsg)")
+    func paymentDone(ret: Bool, transactionCode: String, errorMsg: String) {
+        print("paymentDone \(ret) \(transactionCode) \(errorMsg)")
         
         if ret{
+            
             showMessage(title: "Payment success!", message: "")
+            let (ret, payhis) = self.paymentManager.getPaymentHistory(token:"SPC", transactionCode: transactionCode)
+            if ret == SecuXRequestResult.SecuXRequestOK, let his = payhis{
+                print("payment detail: \(his.amount) \(his.storeName) \(his.storeID) \(his.storeTel) \(his.storeAddress)")
+            }
+        
         }else{
             showMessage(title: "Payment fail!", message:errorMsg)
         }

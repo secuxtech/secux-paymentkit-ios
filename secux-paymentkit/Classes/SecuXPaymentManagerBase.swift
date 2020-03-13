@@ -40,7 +40,8 @@ open class SecuXPaymentManagerBase{
                 }
                 
                 if let machineControlParams = json["machineControlParam"] as? [String : Any],
-                    let encryptedStr = json["encryptedTransaction"] as? String {
+                    let encryptedStr = json["encryptedTransaction"] as? String,
+                    let transCode = json["transactionCode"] as? String{
                     
                     let encrypted = Data(base64Encoded: encryptedStr)
                     
@@ -61,15 +62,13 @@ open class SecuXPaymentManagerBase{
                             
                             self.handlePaymentDone(ret: false, errorMsg: msgStr)
                             
-                            
                             return
 
                         }else{
                             print("payment verification done!")
                             
-                            self.handlePaymentDone(ret: true, errorMsg: "")
-                            
-                            
+                            self.handlePaymentDone(ret: true, errorMsg: transCode)
+
                             return
                         }
                         
@@ -192,7 +191,11 @@ open class SecuXPaymentManagerBase{
     
     internal func handlePaymentDone(ret: Bool, errorMsg: String){
         DispatchQueue.main.async {
-            self.delegate?.paymentDone(ret: ret, errorMsg: errorMsg)
+            if ret{
+                self.delegate?.paymentDone(ret: ret, transactionCode: errorMsg, errorMsg: errorMsg)
+            }else{
+                self.delegate?.paymentDone(ret: ret, transactionCode: "", errorMsg: errorMsg)
+            }
         }
     }
     
