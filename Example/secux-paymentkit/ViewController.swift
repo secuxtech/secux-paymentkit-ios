@@ -45,6 +45,10 @@ class ViewController: UIViewController {
             return
         }
         
+        //(ret, data) = accountManager.changePassword(oldPwd: "12345678", newPwd: "123456")
+        //(ret, data) = accountManager.changePassword(oldPwd: "123456", newPwd: "12345678")
+        
+        
         //Get account balance
         (ret, data) = accountManager.getAccountBalance(userAccount: theUserAccount!)
         guard ret == SecuXRequestResult.SecuXRequestOK else{

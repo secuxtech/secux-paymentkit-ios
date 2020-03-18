@@ -97,12 +97,15 @@ open class SecuXAccountManager{
             userAccount.coinAccountArray = [SecuXCoinAccount]()
             //userAccount.coinAccountArray.append(coinAccount)
             
-            
             return (ret, nil)
             
         }
         
         return (ret, data)
+    }
+    
+    public func changePassword(oldPwd:String, newPwd:String) -> (SecuXRequestResult, Data?){
+        return secuXSvrReqHandler.changePassword(oldPwd: oldPwd, newPwd: newPwd)
     }
     
     public func handleAccounTokenBalance(userAccount:SecuXUserAccount, json: [String:Any]) -> (SecuXRequestResult, Data?){

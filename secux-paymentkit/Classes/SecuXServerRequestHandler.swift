@@ -15,6 +15,7 @@ class SecuXServerRequestHandler: RestRequestHandler {
     static let adminLoginUrl = baseURL + "/api/Admin/Login";
     static let registerUrl = baseURL + "/api/Consumer/Register";
     static let userLoginUrl = baseURL + "/api/Consumer/Login";
+    static let changePwdUrl = baseURL + "/api/Consumer/ChangePassword";
     static let transferUrl = baseURL + "/api/Consumer/Transfer";
     static let balanceUrl = baseURL + "/api/Consumer/GetAccountBalance";
     static let balanceListUrl = baseURL + "/api/Consumer/GetAccountBalanceList";
@@ -75,6 +76,20 @@ class SecuXServerRequestHandler: RestRequestHandler {
         
         SecuXServerRequestHandler.theToken = token
         return (ret, data)
+    }
+    
+    func changePassword(oldPwd: String, newPwd: String) -> (SecuXRequestResult, Data?){
+        logw("changePassword")
+        
+        if SecuXServerRequestHandler.theToken.count == 0{
+            logw("no token")
+            return (SecuXRequestResult.SecuXRequestNoToken, nil)
+        }
+        
+        let param = ["password":oldPwd, "newPassword":newPwd]
+        let url = SecuXServerRequestHandler.changePwdUrl
+        
+        return self.postRequestSync(urlstr: url, param: param, token:SecuXServerRequestHandler.theToken)
     }
     
     func getAccountBalance(coinType: String = "", token: String = "") ->(SecuXRequestResult, Data?){
