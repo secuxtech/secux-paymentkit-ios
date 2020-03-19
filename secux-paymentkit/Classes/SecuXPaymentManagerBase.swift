@@ -155,10 +155,21 @@ open class SecuXPaymentManagerBase{
     
     internal func doPayment(paymentInfo: PaymentInfo, devConfigInfo: PaymentDevConfigInfo) {
         
-        logw("doPayment \(paymentInfo.amount) \(paymentInfo.deviceID) \(devConfigInfo.connTimeout)")
+        logw("doPayment \(paymentInfo.amount) \(paymentInfo.deviceID) \(devConfigInfo.scanTimeout) \(devConfigInfo.connTimeout)")
         
         self.handlePaymentStatus(status: "Device connecting...")
         
+        self.paymentPeripheralManager.doPeripheralAuthenticityVerification(Double(devConfigInfo.scanTimeout),
+                                                                           connectDeviceId: paymentInfo.deviceID,
+                                                                           checkRSSI: Int32(devConfigInfo.rssi),
+                                                                           connectionTimeout: Double(devConfigInfo.connTimeout)) { result, error in
+        
+            //logw("AccountPaymentViewModel doPeripheralAuthenticityVerification done \(result ?? "")")
+            self.handleDeviceAuthenicationResult(paymentInfo: paymentInfo, ivKey: result, error: error)
+        
+        }
+        
+        /*
         paymentPeripheralManager.discoverNearbyPeripherals(Double(devConfigInfo.scanTimeout),
                                                            checkRSSI: Int32(devConfigInfo.rssi)) { result, error in
                      
@@ -186,6 +197,7 @@ open class SecuXPaymentManagerBase{
             }
             
         }
+        */
     }
  
     
