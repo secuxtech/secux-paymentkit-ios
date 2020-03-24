@@ -45,13 +45,14 @@ class SecuXServerRequestHandler: RestRequestHandler {
         return nil;
     }
     
-    func userRegister(account: String, password: String, email: String, alias: String, phonenum: String) -> (SecuXRequestResult, Data?){
+    func userRegister(userAccount: SecuXUserAccount, coinType: String, token: String) -> (SecuXRequestResult, Data?){
         logw("userRegister")
         guard let token = getAdminToken() else{
             return (SecuXRequestResult.SecuXRequestNoToken, nil);
         }
         
-        let param = ["account": account, "password": password, "email":email, "alias":alias, "tel":phonenum, "optional":"{}"] as [String : Any];
+        let param = ["account": userAccount.name, "password": userAccount.password, "email":userAccount.email, "alias":userAccount.alias,
+                     "tel":userAccount.alias, "coinType": coinType, "symbol": token,"optional":"{}"] as [String : Any];
         return self.postRequestSync(urlstr: SecuXServerRequestHandler.registerUrl, param: param, token: token, withTimeout: 30000);
     }
     

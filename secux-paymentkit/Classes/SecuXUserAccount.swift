@@ -35,6 +35,20 @@ public class SecuXUserAccount{
         self.phone = phone
     }
     
+    public init(email:String, password:String){
+        self.name = email
+        self.password = password
+        self.email = email
+        
+        if let separatorIdx = email.firstIndex(of: "@"){
+            self.alias = String(email[..<separatorIdx])
+        }else{
+            self.alias = email
+        }
+        
+     
+    }
+    
     public func getCoinAccount(coinType:String) -> [SecuXCoinAccount]{
         
         var accountArray = [SecuXCoinAccount]()

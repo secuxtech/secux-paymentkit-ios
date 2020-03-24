@@ -15,9 +15,9 @@ open class SecuXAccountManager{
         
     }
     
-    public func registerUserAccount(userAccount: SecuXUserAccount) -> (SecuXRequestResult, Data?){
+    public func registerUserAccount(userAccount: SecuXUserAccount, coinType: String, token: String) -> (SecuXRequestResult, Data?){
         logw("registerUserAccount")
-        let (ret, data) = secuXSvrReqHandler.userRegister(account: userAccount.name, password: userAccount.password, email: userAccount.email, alias: userAccount.alias, phonenum: userAccount.phone)
+        let (ret, data) = secuXSvrReqHandler.userRegister(userAccount: userAccount, coinType: coinType, token: token)
         
         if ret == SecuXRequestResult.SecuXRequestOK, let data=data{
             
