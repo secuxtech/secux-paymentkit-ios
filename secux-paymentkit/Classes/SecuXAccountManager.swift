@@ -92,9 +92,9 @@ open class SecuXAccountManager{
             var dict = [String:SecuXCoinTokenBalance]()
             dict[token] = tokenBalance
             
-            let coinAccount = SecuXCoinAccount(type: coinType, name: token, tokenBalDict: dict)
+            let _ = SecuXCoinAccount(type: coinType, name: token, tokenBalDict: dict)
             
-            userAccount.coinAccountArray = [SecuXCoinAccount]()
+            //userAccount.coinAccountArray = [SecuXCoinAccount]()
             //userAccount.coinAccountArray.append(coinAccount)
             
             return (ret, nil)
@@ -102,6 +102,56 @@ open class SecuXAccountManager{
         }
         
         return (ret, data)
+    }
+    
+    public func getSupportedCoinTokenArray() -> (SecuXRequestResult, Data?){
+        return secuXSvrReqHandler.getSupportedCoinTokens()
+    }
+    
+    public func getCoinAccountList(userAccount:SecuXUserAccount) -> (SecuXRequestResult, Data?){
+        let (ret, data) = secuXSvrReqHandler.getChainAccountList()
+        guard ret == SecuXRequestResult.SecuXRequestOK, let replyData = data else {
+            return (ret, data)
+        }
+        
+        guard let responseJson = try? JSONSerialization.jsonObject(with: replyData, options: []) as? [String:Any] else{
+            return (SecuXRequestResult.SecuXRequestFailed, "Invalid json response from server".data(using: String.Encoding.utf8))
+        }
+                
+        guard let accountInfoArray = responseJson["dataList"] as? [[String:Any]] else {
+            return (SecuXRequestResult.SecuXRequestFailed, "No dataList! Invalid response from server.".data(using: String.Encoding.utf8))
+        }
+        
+        userAccount.removeAllCoinAccount()
+        for accInfo in accountInfoArray{
+            //guard let accInfoData = accInfo.data(using: .utf8), let accInfoJson = try? JSONSerialization.jsonObject(with: accInfoData, options: []) as? [String:Any] else{
+            //    return (SecuXRequestResult.SecuXRequestFailed, "Invalid json response from server".data(using: String.Encoding.utf8))
+            //}
+            
+            guard let accountName = accInfo["account"] as? String else{
+                return (SecuXRequestResult.SecuXRequestFailed, "No account! Invalid response from server.".data(using: String.Encoding.utf8))
+            }
+            
+            guard let coinType = accInfo["coinType"] as? String else{
+                return (SecuXRequestResult.SecuXRequestFailed, "No coin type! Invalid response from server.".data(using: String.Encoding.utf8))
+            }
+            
+            guard let tokenArray = accInfo["symbol"] as? [String] else{
+                return (SecuXRequestResult.SecuXRequestFailed, "No symbol! Invalid response from server.".data(using: String.Encoding.utf8))
+            }
+            
+            var tokenBalanceDict = [String : SecuXCoinTokenBalance]()
+            let zeroBalance = SecuXCoinTokenBalance(balance: 0, formattedBalance: 0, usdBalance: 0)
+            for token in tokenArray{
+                tokenBalanceDict[token] = zeroBalance
+            }
+            
+            let newCoinAccount = SecuXCoinAccount(type: coinType, name: accountName, tokenBalDict: tokenBalanceDict)
+            
+            userAccount.addCoinAccount(coinAcc: newCoinAccount)
+        }
+        
+        return (ret, nil)
     }
     
     public func changePassword(oldPwd:String, newPwd:String) -> (SecuXRequestResult, Data?){
@@ -186,7 +236,7 @@ open class SecuXAccountManager{
             return (ret, data)
         }
         
-        return (SecuXRequestResult.SecuXRequestFailed, nil)
+        //return (SecuXRequestResult.SecuXRequestFailed, nil)
     }
     
     

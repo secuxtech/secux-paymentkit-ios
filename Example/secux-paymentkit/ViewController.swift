@@ -33,7 +33,7 @@ class ViewController: UIViewController {
     
     //Try account related functions
     func doAccountActions(){
-        theUserAccount = SecuXUserAccount(email: "maochuntest20@secuxtech.com", phone: "0975123456", password: "12345678")
+        theUserAccount = SecuXUserAccount(email: "maochuntest9@secuxtech.com", phone: "0975123456", password: "12345678")
         let (regret, retdata) = accountManager.registerUserAccount(userAccount: theUserAccount!, coinType: "LBR", token: "LBR")
         if regret == SecuXRequestResult.SecuXRequestOK {
             
@@ -56,26 +56,58 @@ class ViewController: UIViewController {
         //(ret, data) = accountManager.changePassword(oldPwd: "12345678", newPwd: "123456")
         //(ret, data) = accountManager.changePassword(oldPwd: "123456", newPwd: "12345678")
         
+        //Get all server supported coin and token
+        (ret, data) = accountManager.getSupportedCoinTokenArray()
+        //print("data: \(String(data: data!, encoding: String.Encoding.utf8) ?? "")")
+        if ret == SecuXRequestResult.SecuXRequestOK, let replyData = data,
+            let responseArr = try? JSONSerialization.jsonObject(with: replyData, options: []) as? [[String]]{
+            
+            //print("\(responseArr)")
+            
+            for item in responseArr{
+                
+                if item.count == 2{
+                
+                    let coin = item[0]
+                    let token = item[1]
+                    print("coin = \(coin) token = \(token)")
+                }else{
+                    print("Invalid coin token info.")
+                }
+                
+            }
+        }
         
-        //Get account balance
-         (ret, data) = accountManager.getAccountBalance(userAccount: theUserAccount!)
+        //Get all coin account
+        (ret, data) = accountManager.getCoinAccountList(userAccount: theUserAccount!)
+        
         guard ret == SecuXRequestResult.SecuXRequestOK else{
-            print("get balance failed!")
+            print("get coin account failed")
             if let data = data{
                 print("Error: \(String(data: data, encoding: String.Encoding.utf8) ?? "")")
             }
             return
         }
-        
-        //Get balance for a specified coin and token account
-        (ret, data) = accountManager.getAccountBalance(userAccount: theUserAccount!, coinType: "DCT", token: "SPC")
+    
         
         //print out balance
         for coinAcc in theUserAccount!.coinAccountArray{
-            let keyArr = coinAcc.tokenBalanceDict.keys
-            for key in keyArr{
+            let tokenArr = coinAcc.tokenBalanceDict.keys
+            for token in tokenArr{
+                
+                //Get balance for a specified coin and token account
+                (ret, data) = accountManager.getAccountBalance(userAccount: theUserAccount!, coinType: coinAcc.coinType, token: token)
+                
+                guard ret == SecuXRequestResult.SecuXRequestOK else{
+                    print("get \(coinAcc.coinType) \(token) balance failed")
+                    if let data = data{
+                        print("Error: \(String(data: data, encoding: String.Encoding.utf8) ?? "")")
+                    }
+                    continue
+                }
+                
                 if let tokenBal = coinAcc.tokenBalanceDict["key"]{
-                    print("\(key) \(tokenBal.theBalance) \(tokenBal.theFormattedBalance) \(tokenBal.theUsdBalance)")
+                    print("\(coinAcc.coinType) \(token) \(tokenBal.theBalance) \(tokenBal.theFormattedBalance) \(tokenBal.theUsdBalance)")
                 }
                 
             }
@@ -163,10 +195,25 @@ class ViewController: UIViewController {
                 print("Response has no hashed devID")
                 return
             }
-            let (reqRet, storeInfo, img) = paymentManager.getStoreInfo(devID: devIDHash)
+            let (reqRet, storeInfo, img, supportedCoinTokenArr) = paymentManager.getStoreInfo(devID: devIDHash)
             if reqRet == SecuXRequestResult.SecuXRequestOK, storeInfo.count > 0, let _ = img, let payInfo = String(data:data, encoding: String.Encoding.utf8){
-                print("get store info. done")
-                paymentManager.doPaymentAsync(storeInfo: storeInfo, paymentInfo: payInfo)
+                print("get store info. done ")
+                
+                if let coinTokenArr = supportedCoinTokenArr{
+                    print("coinToken arr = \(coinTokenArr)")
+                    
+                    for coinToken in coinTokenArr{
+                    
+                        if self.theUserAccount?.supportToken(coin: coinToken.coin, token: coinToken.token) ?? false{
+                            paymentManager.doPaymentAsync(storeInfo: storeInfo, paymentInfo: payInfo)
+                            return
+                        }
+                    }
+                    
+                    
+                }
+                print("No supported coin and token")
+                
             }else{
                 print("get store info. failed")
             }

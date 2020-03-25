@@ -94,36 +94,46 @@ open class SecuXPaymentManager: SecuXPaymentManagerBase {
         super.init()
     }
     
-    open func getStoreInfo(devID:String) -> (SecuXRequestResult, String, UIImage?){
+    open func getStoreInfo(devID:String) -> (SecuXRequestResult, String, UIImage?, [(coin:String, token:String)]?){
         
         let (ret, data) = self.secXSvrReqHandler.getStoreInfo(devID: devID)
         if ret == SecuXRequestResult.SecuXRequestOK, let storeInfo = data{
             do{
                 let json  = try JSONSerialization.jsonObject(with: storeInfo, options: []) as! [String : Any]
                 
-                if let imgStr = json["icon"] as? String{
-                    
-                    if let url = URL(string: imgStr),let data = try? Data(contentsOf: url),let image = UIImage(data: data) {
-
-                        return (ret, String(data: storeInfo, encoding: String.Encoding.utf8) ?? "", image)
-                    }else{
-                        logw("generate store logo img failed!")
-                        return (SecuXRequestResult.SecuXRequestFailed, "generate store logo img failed", nil)
-                    }
-                    
-                }else{
+                guard let imgStr = json["icon"] as? String else{
                     logw("getStoreInfo no icon  \(json)")
-                    return (SecuXRequestResult.SecuXRequestFailed, "Response has no icon info.", nil)
+                    return (SecuXRequestResult.SecuXRequestFailed, "Response has no icon info.", nil, nil)
                 }
+                
+            
+                guard let url = URL(string: imgStr),let data = try? Data(contentsOf: url),let image = UIImage(data: data) else{
+                    logw("generate store logo img failed!")
+                    return (SecuXRequestResult.SecuXRequestFailed, "generate store logo img failed", nil, nil)
+                }
+                
+                var coinTokenArray = [(coin:String, token:String)]()
+                if let supportedCoinTokenArray = json["supportedSymbol"] as? [[String]]{
+                    for item in supportedCoinTokenArray{
+                        
+                        if item.count == 2{
+                            coinTokenArray.append((item[0], item[1]))
+                        }else{
+                            logw("Invalid supported symbol from server")
+                        }
+                    }
+                }
+                
+                return (ret, String(data: storeInfo, encoding: String.Encoding.utf8) ?? "", image, coinTokenArray)
                 
             }catch{
                 logw("getAccountInfo error: " + error.localizedDescription)
-                return (SecuXRequestResult.SecuXRequestFailed, "Response json invalid", nil)
+                return (SecuXRequestResult.SecuXRequestFailed, "Response json invalid", nil, nil)
             }
             
         }
             
-        return (ret, "", nil)
+        return (ret, "", nil, nil)
         
     }
     

@@ -64,4 +64,19 @@ public class SecuXUserAccount{
         self.coinAccountArray.append(coinAcc)
     }
     
+    public func removeAllCoinAccount(){
+        self.coinAccountArray.removeAll()
+    }
+    
+    public func supportToken(coin:String, token: String) -> Bool {
+        for acc in self.coinAccountArray{
+            
+            if acc.coinType == coin, let _ = acc.getTokenBalance(token: token){
+                return true
+            }
+        }
+        
+        return false
+    }
+    
 }

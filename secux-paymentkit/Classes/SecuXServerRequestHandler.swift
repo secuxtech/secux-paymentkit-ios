@@ -11,21 +11,23 @@ import Foundation
 
 class SecuXServerRequestHandler: RestRequestHandler {
     
-    static let baseURL = "https://pmsweb-test.secux.io";
-    static let adminLoginUrl = baseURL + "/api/Admin/Login";
-    static let registerUrl = baseURL + "/api/Consumer/Register";
-    static let userLoginUrl = baseURL + "/api/Consumer/Login";
-    static let changePwdUrl = baseURL + "/api/Consumer/ChangePassword";
-    static let transferUrl = baseURL + "/api/Consumer/Transfer";
-    static let balanceUrl = baseURL + "/api/Consumer/GetAccountBalance";
-    static let balanceListUrl = baseURL + "/api/Consumer/GetAccountBalanceList";
-    static let paymentUrl = baseURL + "/api/Consumer/Payment";
-    static let paymentHistoryUrl = baseURL + "/api/Consumer/GetPaymentHistory";
-    static let getStoreUrl = baseURL + "/api/Terminal/GetStore";
-    static let transferHistoryUrl = baseURL + "/api/Consumer/GetTxHistory";
-    static let getDeviceInfoUrl = baseURL + "/api/Terminal/GetDeviceInfo";
+    static let baseURL = "https://pmsweb-test.secux.io"
+    static let adminLoginUrl = baseURL + "/api/Admin/Login"
+    static let registerUrl = baseURL + "/api/Consumer/Register"
+    static let userLoginUrl = baseURL + "/api/Consumer/Login"
+    static let changePwdUrl = baseURL + "/api/Consumer/ChangePassword"
+    static let transferUrl = baseURL + "/api/Consumer/Transfer"
+    static let balanceUrl = baseURL + "/api/Consumer/GetAccountBalance"
+    static let balanceListUrl = baseURL + "/api/Consumer/GetAccountBalanceList"
+    static let paymentUrl = baseURL + "/api/Consumer/Payment"
+    static let paymentHistoryUrl = baseURL + "/api/Consumer/GetPaymentHistory"
+    static let getStoreUrl = baseURL + "/api/Terminal/GetStore"
+    static let transferHistoryUrl = baseURL + "/api/Consumer/GetTxHistory"
+    static let getDeviceInfoUrl = baseURL + "/api/Terminal/GetDeviceInfo"
+    static let getSupportedSymbol = baseURL + "/api/Terminal/GetSupportedSymbol"
+    static let getChainAccountList = baseURL + "/api/Consumer/GetChainAccountList"
     
-    private static var theToken = "";
+    private static var theToken = ""
     
     func getAdminToken() -> String?{
         logw("getAdminToken")
@@ -77,6 +79,30 @@ class SecuXServerRequestHandler: RestRequestHandler {
         
         SecuXServerRequestHandler.theToken = token
         return (ret, data)
+    }
+    
+    func getSupportedCoinTokens()  -> (SecuXRequestResult, Data?){
+        logw("getSupportedToken")
+        
+        if SecuXServerRequestHandler.theToken.count == 0{
+            logw("no token")
+            return (SecuXRequestResult.SecuXRequestNoToken, nil)
+        }
+        
+        return self.postRequestSync(urlstr: SecuXServerRequestHandler.getSupportedSymbol, param: nil, token: SecuXServerRequestHandler.theToken)
+        
+    }
+    
+    func getChainAccountList() -> (SecuXRequestResult, Data?){
+        logw("getChainAccountList")
+
+        if SecuXServerRequestHandler.theToken.count == 0{
+            logw("no token")
+            return (SecuXRequestResult.SecuXRequestNoToken, nil)
+        }
+       
+        return self.postRequestSync(urlstr: SecuXServerRequestHandler.getChainAccountList, param: [String:String](), token: SecuXServerRequestHandler.theToken)
+       
     }
     
     func changePassword(oldPwd: String, newPwd: String) -> (SecuXRequestResult, Data?){
