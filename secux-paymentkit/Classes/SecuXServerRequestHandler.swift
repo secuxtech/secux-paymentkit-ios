@@ -11,7 +11,7 @@ import Foundation
 
 class SecuXServerRequestHandler: RestRequestHandler {
     
-    static let baseURL = "https://pmsweb-test.secux.io"
+    static var baseURL = "https://pmsweb-test.secux.io"
     static let adminLoginUrl = baseURL + "/api/Admin/Login"
     static let registerUrl = baseURL + "/api/Consumer/Register"
     static let userLoginUrl = baseURL + "/api/Consumer/Login"
@@ -89,7 +89,7 @@ class SecuXServerRequestHandler: RestRequestHandler {
             return (SecuXRequestResult.SecuXRequestNoToken, nil)
         }
         
-        return self.postRequestSync(urlstr: SecuXServerRequestHandler.getSupportedSymbol, param: nil, token: SecuXServerRequestHandler.theToken)
+        return self.postRequestSync(urlstr: SecuXServerRequestHandler.getSupportedSymbol, param: nil)
         
     }
     
