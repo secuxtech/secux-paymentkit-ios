@@ -34,11 +34,24 @@ class ViewController: UIViewController {
     //Try account related functions
     func doAccountActions(){
         theUserAccount = SecuXUserAccount(email: "maochuntest9@secuxtech.com", phone: "0975123456", password: "12345678")
-        let (regret, retdata) = accountManager.registerUserAccount(userAccount: theUserAccount!, coinType: "LBR", token: "LBR")
-        if regret == SecuXRequestResult.SecuXRequestOK {
+        //Get all server supported coin and token
+        
+        let (getCoinTokenRet, coinTokenReplyData, coinTokenArray) = accountManager.getSupportedCoinTokenArray()
+        //print("data: \(String(data: data!, encoding: String.Encoding.utf8) ?? "")")
+        if getCoinTokenRet == SecuXRequestResult.SecuXRequestOK, let coinTokenArr = coinTokenArray, coinTokenArr.count > 0 {
+            
+            let (regret, retdata) = accountManager.registerUserAccount(userAccount: theUserAccount!, coinType: coinTokenArr[0].coin, token: coinTokenArr[0].token)
+            if regret == SecuXRequestResult.SecuXRequestOK {
+                print("register new account successfully!")
+            }else{
+                if let data = retdata{
+                    print("Error: \(String(data: data, encoding: String.Encoding.utf8) ?? "")")
+                }
+            }
             
         }else{
-            if let data = retdata{
+            print("getSupportedCoinTokenArray failed")
+            if let data = coinTokenReplyData{
                 print("Error: \(String(data: data, encoding: String.Encoding.utf8) ?? "")")
             }
         }
@@ -56,27 +69,7 @@ class ViewController: UIViewController {
         //(ret, data) = accountManager.changePassword(oldPwd: "12345678", newPwd: "123456")
         //(ret, data) = accountManager.changePassword(oldPwd: "123456", newPwd: "12345678")
         
-        //Get all server supported coin and token
-        (ret, data) = accountManager.getSupportedCoinTokenArray()
-        //print("data: \(String(data: data!, encoding: String.Encoding.utf8) ?? "")")
-        if ret == SecuXRequestResult.SecuXRequestOK, let replyData = data,
-            let responseArr = try? JSONSerialization.jsonObject(with: replyData, options: []) as? [[String]]{
-            
-            //print("\(responseArr)")
-            
-            for item in responseArr{
-                
-                if item.count == 2{
-                
-                    let coin = item[0]
-                    let token = item[1]
-                    print("coin = \(coin) token = \(token)")
-                }else{
-                    print("Invalid coin token info.")
-                }
-                
-            }
-        }
+        
         
         //Get all coin account
         (ret, data) = accountManager.getCoinAccountList(userAccount: theUserAccount!)
