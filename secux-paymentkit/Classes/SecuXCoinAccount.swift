@@ -20,11 +20,11 @@ public class SecuXCoinAccount{
     
     public func updateTokenBalance(token:String, tokenBal:SecuXCoinTokenBalance)->Bool{
         
-        guard let tokenBal = tokenBalanceDict[token] else{
+        guard let oldTokenBal = tokenBalanceDict[token] else{
             return false;
         }
         
-        tokenBal.copyValueFrom(tokenBalance: tokenBal)
+        oldTokenBal.copyValueFrom(tokenBalance: tokenBal)
         
         return true;
     }

@@ -49,13 +49,13 @@ class SecuXServerRequestHandler: RestRequestHandler {
     
     func userRegister(userAccount: SecuXUserAccount, coinType: String, token: String) -> (SecuXRequestResult, Data?){
         logw("userRegister")
-        guard let token = getAdminToken() else{
+        guard let bearerToken = getAdminToken() else{
             return (SecuXRequestResult.SecuXRequestNoToken, nil);
         }
         
         let param = ["account": userAccount.name, "password": userAccount.password, "email":userAccount.email, "alias":userAccount.alias,
-                     "tel":userAccount.alias, "coinType": coinType, "symbol": token,"optional":"{}"] as [String : Any];
-        return self.postRequestSync(urlstr: SecuXServerRequestHandler.registerUrl, param: param, token: token, withTimeout: 30000);
+                     "tel":userAccount.phone, "coinType": coinType, "symbol": token,"optional":"{}"] as [String : Any];
+        return self.postRequestSync(urlstr: SecuXServerRequestHandler.registerUrl, param: param, token: bearerToken, withTimeout: 30000);
     }
     
     func userLogin(account: String, password: String) -> (SecuXRequestResult, Data?){
@@ -84,13 +84,7 @@ class SecuXServerRequestHandler: RestRequestHandler {
     func getSupportedCoinTokens()  -> (SecuXRequestResult, Data?){
         logw("getSupportedToken")
         
-        if SecuXServerRequestHandler.theToken.count == 0{
-            logw("no token")
-            return (SecuXRequestResult.SecuXRequestNoToken, nil)
-        }
-        
         return self.postRequestSync(urlstr: SecuXServerRequestHandler.getSupportedSymbol, param: nil)
-        
     }
     
     func getChainAccountList() -> (SecuXRequestResult, Data?){
