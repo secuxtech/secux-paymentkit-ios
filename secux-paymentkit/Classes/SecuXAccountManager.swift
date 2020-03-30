@@ -16,6 +16,7 @@ open class SecuXAccountManager{
     }
     
     public func setBaseServer(url:String){
+        logw("setBaseServer \(url)")
         SecuXServerRequestHandler.baseURL = url
     }
     

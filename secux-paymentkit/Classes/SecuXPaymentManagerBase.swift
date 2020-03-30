@@ -96,7 +96,13 @@ open class SecuXPaymentManagerBase{
         }else{
             
             print("doPayment failed!!")
-            self.handlePaymentDone(ret: false, errorMsg: "Send request to server failed.")
+            var error = "Send request to server failed."
+            if let data = data{
+                let msg = String(data: data, encoding: .utf8) ?? ""
+                error = msg
+            }
+            
+            self.handlePaymentDone(ret: false, errorMsg:error)
             
         }
         
