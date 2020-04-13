@@ -40,7 +40,7 @@ Use SecuXAccountManager object to do the operations below
     let accManager = SecuXAccountManager()
 ```
 
-1. <b>Get supported coin/token
+1. <b>Get supported coin/token</b>
 
 #### <u>Declaration</u>
 ```swift
@@ -71,7 +71,7 @@ Use SecuXAccountManager object to do the operations below
     }
 ```
 
-2. <b>Registration
+2. <b>Registration</b>
 #### <u>Declaration</u>
 ```swift
     func registerUserAccount(userAccount: SecuXUserAccount, 
@@ -106,7 +106,7 @@ Use SecuXAccountManager object to do the operations below
     }
 ```
 
-3. <b>Login
+3. <b>Login</b>
 #### <u>Declaration</u>
 ```swift
     func loginUserAccount(userAccount:SecuXUserAccount) -> (SecuXRequestResult, Data?)
@@ -137,7 +137,7 @@ Use SecuXAccountManager object to do the operations below
     }
 ```
 
-4. <b>Get coin/token account list  
+4. <b>Get coin/token account list</b>
 Must successfully login the server before calling the function
 
 #### <u>Declaration</u>
@@ -169,7 +169,7 @@ Must successfully login the server before calling the function
     }
 ```
 
-5. <b>Get coin/token account balance 
+5. <b>Get coin/token account balance</b> 
 
 #### <u>Declaration</u>
 ```swift
@@ -187,7 +187,8 @@ Must successfully login the server before calling the function
 
 #### <u>Sample</u>
 ```swift
-    let (ret, data) = accountManager.getAccountBalance(userAccount: theUserAccount!, coinType: coinAcc.coinType, token: token)
+    let (ret, data) = accManager.getAccountBalance(userAccount: usrAcc, 
+                                                   coinType: "DCT", token: "SPC")
                 
     guard ret == SecuXRequestResult.SecuXRequestOK else{
         print("get \(coinAcc.coinType) \(token) balance failed")
@@ -197,7 +198,8 @@ Must successfully login the server before calling the function
         continue
     }
     
-    if let tokenBal = coinAcc.tokenBalanceDict["key"]{
+    let coinAcc = usrAcc.getCoinAccount(coinType: "DCT")
+    if let tokenBal = coinAcc.tokenBalanceDict["SPC"]{
         print("\(coinAcc.coinType) \(token) \(tokenBal.theBalance) \(tokenBal.theFormattedBalance) \(tokenBal.theUsdBalance)")
     }
 ```
@@ -206,19 +208,19 @@ Must successfully login the server before calling the function
 
 Use SecuXPaymentManager object to do the operations below
 
-1. <b>Parsing payment QRCode
+1. <b>Parsing payment QRCode</b>
 #### <u>Declaration</u>
 #### <u>Parameter</u>
 #### <u>Return value</u>
 #### <u>Sample</u>
 
-2. <b>Get store information
+2. <b>Get store information</b>
 #### <u>Declaration</u>
 #### <u>Parameter</u>
 #### <u>Return value</u>
 #### <u>Sample</u>
 
-3. <b>Do payment
+3. <b>Do payment</b>
 #### <u>Declaration</u>
 #### <u>Parameter</u>
 #### <u>Return value</u>
