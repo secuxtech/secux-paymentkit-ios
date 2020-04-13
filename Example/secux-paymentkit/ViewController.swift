@@ -98,7 +98,7 @@ class ViewController: UIViewController {
                     }
                     continue
                 }
-                
+               
                 if let tokenBal = coinAcc.tokenBalanceDict["key"]{
                     print("\(coinAcc.coinType) \(token) \(tokenBal.theBalance) \(tokenBal.theFormattedBalance) \(tokenBal.theUsdBalance)")
                 }
