@@ -208,6 +208,8 @@ Must successfully login the server before calling the function
 
 Use SecuXPaymentManager object to do the operations below
 
+    let paymentManager = SecuXPaymentManager()
+
 1. <b>Parsing payment QRCode</b>
 #### <u>Declaration</u>
 #### <u>Parameter</u>
@@ -221,6 +223,13 @@ Use SecuXPaymentManager object to do the operations below
 #### <u>Sample</u>
 
 3. <b>Do payment</b>
+#### <u>Declaration</u>
+#### <u>Parameter</u>
+#### <u>Return value</u>
+#### <u>Sample</u>
+
+
+3. <b>Get payment history</b>
 #### <u>Declaration</u>
 #### <u>Parameter</u>
 #### <u>Return value</u>
