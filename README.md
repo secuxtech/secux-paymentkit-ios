@@ -17,7 +17,7 @@ secux-paymentkit is available through [CocoaPods](https://cocoapods.org). To ins
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'secux-paymentkit'
+    pod 'secux-paymentkit'
 ```
 
 ### Add bluetooth privacy permissions in the plist
@@ -49,7 +49,7 @@ Use SecuXAccountManager object to do the operations below
 ```
 
 #### <u>Return value</u>
-    SecuXRequestResult shows the operation result, if the result is not SecuXRequestResult.SecuXRequestOK, data shall contains the error message. Otherwise, the returned array shall contain all the supported coin and token pairs.
+        SecuXRequestResult shows the operation result, if the result is not SecuXRequestResult.SecuXRequestOK, data shall contains the error message. Otherwise, the returned array shall contain all the supported coin and token pairs.
 
 #### <u>Sample</u>
 ```swift
@@ -80,12 +80,12 @@ Use SecuXAccountManager object to do the operations below
 ```
 
 #### <u>Parameters</u>
-    userAccount: A SecuXUserAccount object with login name and password  
-    coinType:    CoinType string  
-    token:       Token string
+        userAccount: A SecuXUserAccount object with login name and password  
+        coinType:    CoinType string  
+        token:       Token string
 
 #### <u>Return value</u>
-    SecuXRequestResult shows the operation result. If the result is SecuXRequestOK, registration is successful, otherwise data might contain an error message.
+        SecuXRequestResult shows the operation result. If the result is SecuXRequestOK, registration is successful, otherwise data might contain an error message.
 
 #### <u>Sample</u>
 ```swift
@@ -115,7 +115,7 @@ Use SecuXAccountManager object to do the operations below
         userAccount: A SecuXUserAccount object with login name and password  
 
 #### <u>Return value</u>
-            SecuXRequestResult shows the operation result. If the result is SecuXRequestOK, login is successful, otherwise data might contain an error message.
+        SecuXRequestResult shows the operation result. If the result is SecuXRequestOK, login is successful, otherwise data might contain an error message.
 
 #### <u>Sample</u>
 ```swift
