@@ -50,9 +50,9 @@ Use SecuXAccountManager object to do the operations below
 
 #### <u>Return value</u>
 ```
-    SecuXRequestResult shows the operation result, if the result is not  
-    SecuXRequestResult.SecuXRequestOK, data shall contains the error message.  
-    Otherwise, the returned array shall contain all the supported coin and token pairs.
+    SecuXRequestResult shows the operation result, if the result is  
+    SecuXRequestResult.SecuXRequestOK, the returned array contains all the supported 
+    coin and token pairs, otherwise data might contain error message.  
 ```
 
 #### <u>Sample</u>
@@ -92,7 +92,8 @@ Use SecuXAccountManager object to do the operations below
 
 #### <u>Return value</u>
 ```
-    SecuXRequestResult shows the operation result. If the result is SecuXRequestOK, registration is successful, otherwise data might contain an error message.
+    SecuXRequestResult shows the operation result. If the result is SecuXRequestOK,
+    registration is successful, otherwise data might contain an error message.
 ```
 
 #### <u>Sample</u>
@@ -126,7 +127,8 @@ Use SecuXAccountManager object to do the operations below
 
 #### <u>Return value</u>
 ```
-    SecuXRequestResult shows the operation result. If the result is SecuXRequestOK, login is successful, otherwise data might contain an error message.
+    SecuXRequestResult shows the operation result. If the result is SecuXRequestOK, 
+    login is successful, otherwise data might contain an error message.
 ```
 
 #### <u>Sample</u>
@@ -163,7 +165,10 @@ Must successfully login the server before calling the function
 
 #### <u>Return value</u>
 ```
-    SecuXRequestResult shows the operation result. If the result is SecuXRequestOK, getting coin/token account information is successful and coin/token account information is in the user account's coinAccountArray, otherwise data might contain an error message.
+    SecuXRequestResult shows the operation result. If the result is SecuXRequestOK, 
+    getting coin/token account information is successful and coin/token account 
+    information is in the user account's coinAccountArray, otherwise data might contain  
+    error message.
 ```
 
 #### <u>Sample</u>
@@ -202,7 +207,10 @@ Must successfully login the server before calling the function
 
 #### <u>Return value</u>
 ```
-    SecuXRequestResult shows the operation result. If the result is SecuXRequestOK, getting coin/token account balance is successful and coin/token account balance can be found in the user account's coinAccountArray, otherwise data might contain an error message.
+    SecuXRequestResult shows the operation result. If the result is SecuXRequestOK, 
+    getting coin/token account balance is successful and coin/token account balance can 
+    be found in the user account's coinAccountArray, otherwise data might contain 
+    error message.
 ```
 
 #### <u>Sample</u>
@@ -243,7 +251,9 @@ Use SecuXPaymentManager object to do the operations below
 ```
 #### <u>Return value</u>
 ```
-    SecuXRequestResult shows the operation result. If the result is SecuXRequestOK, parsing payment information is successful and data contains decoded payment information in JSON format , otherwise data might contain an error message.
+    SecuXRequestResult shows the operation result. If the result is SecuXRequestOK, 
+    parsing payment information is successful and data contains decoded payment 
+    information in JSON format , otherwise data might contain an error message.
 
     Sample return JSON format
     {
@@ -253,7 +263,8 @@ Use SecuXPaymentManager object to do the operations below
         "deviceIDhash": "41193D32D520E114A3730D458F4389B5B9A7114D"
     }
 
-    Note: "amount" and "coinType" are optional, QRCode from P20 will not generate these items.
+    Note: "amount" and "coinType" are optional, QRCode from P20 will not generate 
+    these items.
 ```
 #### <u>Sample</u>
 ```swift
@@ -299,15 +310,17 @@ Use SecuXPaymentManager object to do the operations below
 ```
 #### <u>Return value</u>
 ```
-    SecuXRequestResult shows the operation result. If the result is SecuXRequestOK, getting store information is successful, otherwise data might contain an error message.
+    SecuXRequestResult shows the operation result. If the result is SecuXRequestOK, 
+    getting store information is successful, otherwise data might contain an error message.
 
     For eample:
-    let (reqRet, storeInfo, img, supportedCoinTokenArray) = paymentManager.getStoreInfo(devID: devIDHash)
+    let (reqRet, storeInfo, img, supportedCoinTokenArray) 
+                        = paymentManager.getStoreInfo(devID: devIDHash)
 
-    reqRet: SecuXRequestResult
-    storeInfo: Store information in JSON format
-    img: Store logo in UIImage
-    supportedCoinTokenArray: 
+    reqRet:     SecuXRequestResult
+    storeInfo:  Store information in JSON format
+    img:        Store logo in UIImage
+    supportedCoinTokenArray: Coin/token(s) accepted by the store
 
 ```
 #### <u>Sample</u>
@@ -351,7 +364,8 @@ Use SecuXPaymentManager object to do the operations below
                          "DCT transferring..."  
                          "Device verifying..."
 
-    Note: You must implement the SecuXPaymentManagerDelegate and set it to the SecuXPayment delegate, e.g. self.paymentManager.delegate = self
+    Note: You must implement the SecuXPaymentManagerDelegate and set it to the 
+    SecuXPayment delegate, e.g. self.paymentManager.delegate = self
 ```
 #### <u>Sample</u>
 
@@ -420,7 +434,10 @@ extension ViewController: SecuXPaymentManagerDelegate{
 
 #### <u>Return value</u>
 ```
-    SecuXRequestResult shows the operation result. If the result is SecuXRequestOK, SecuXPaymentHistory objects are in the returned array. If number of the history objects in the return array less than the input pageItemCount, means there is no more history items. 
+    SecuXRequestResult shows the operation result. If the result is SecuXRequestOK, 
+    SecuXPaymentHistory objects are in the returned array. If number of the history 
+    objects in the return array less than the input pageItemCount, means there is no 
+    more history items. 
 ```
 #### <u>Sample</u>
 ```swift
@@ -459,12 +476,14 @@ extension ViewController: SecuXPaymentManagerDelegate{
 ```
 #### <u>Parameter</u>
 ```
-    token: Payment token, e.g. SPC, DCT
-    transactionCode: Payment transaction code from SecuXPaymentManagerDelegate when payment done
+    token:           Payment token, e.g. SPC, DCT
+    transactionCode: Payment transaction code from SecuXPaymentManagerDelegate when 
+                     payment done
 ```
 #### <u>Return value</u>
 ```
-    SecuXRequestResult shows the operation result. If the result is SecuXRequestOK, payment history is in the returned SecuXPaymentHistory object.
+    SecuXRequestResult shows the operation result. If the result is SecuXRequestOK, 
+    payment history is in the returned SecuXPaymentHistory object.
 ```
 #### <u>Sample</u>
 ```swift
