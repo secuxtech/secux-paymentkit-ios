@@ -467,7 +467,7 @@ extension ViewController: SecuXPaymentManagerDelegate{
 ```
     SecuXRequestResult shows the operation result. If the result is SecuXRequestOK, 
     SecuXPaymentHistory objects are in the returned array. If number of the history 
-    objects in the return array less than the input pageItemCount, means there is no 
+    objects in the return array less than the input pageItemCount, there is no 
     more history items. 
 ```
 #### <u>Sample</u>
@@ -499,7 +499,7 @@ extension ViewController: SecuXPaymentManagerDelegate{
     }
 ```
 
-5. <b>Get payment history via transaction code</b>
+5. <b>Get payment history from transaction code</b>
 #### <u>Declaration</u>
 ```swift
     func getPaymentHistory(token:String, transactionCode:String)
