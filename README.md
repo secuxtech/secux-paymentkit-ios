@@ -331,8 +331,6 @@ Use SecuXPaymentManager object to do the operations below
 ```
     storeInfo: Store information JSON string from getStoreInfo function
     paymentInfo: Payment information JSON string 
-
-
 ```
 #### <u>Delegate</u>
 ```swift
@@ -351,12 +349,11 @@ Use SecuXPaymentManager object to do the operations below
                          "DCT transferring..."  
                          "Device verifying..."
 
+    Note: You must implement the SecuXPaymentManagerDelegate and set it to the SecuXPayment delegate, e.g. self.paymentManager.delegate = self
 ```
-
 #### <u>Sample</u>
 
 ```swift
-
 class ViewController: UIViewController {
 
     ...
@@ -380,7 +377,6 @@ class ViewController: UIViewController {
         paymentManager.doPaymentAsync(storeInfo: self.storeInfo, 
                                     paymentInfo: paymentInfo)
     }
-
 }
 
 extension ViewController: SecuXPaymentManagerDelegate{
@@ -404,21 +400,79 @@ extension ViewController: SecuXPaymentManagerDelegate{
         print("updatePaymentStatus \(status)")
     }
 }
-
 ```
 
 
 4. <b>Get all payment history</b>
 #### <u>Declaration</u>
+```swift
+    func getPaymentHistory(token:String, pageIdx:Int, pageItemCount: Int)
+                                        ->(SecuXRequestResult, [SecuXPaymentHistory])  
+```
 #### <u>Parameter</u>
+```
+    token:          Payment token, can be empty
+    pageIdx:        History item page index starts from 0, e.g. 0,1,2,3...
+    pageItemCount:  Number of history items request, e.g. 5, 10, 20 ... 
+```
+
 #### <u>Return value</u>
+```
+    SecuXRequestResult shows the operation result. If the result is SecuXRequestOK, SecuXPaymentHistory objects are in the returned array. If number of the history objects in the return array less than the input pageItemCount, means there is no more history items. 
+```
 #### <u>Sample</u>
+```swift
+    var pageIdx = 0
+    let pageItemCount = 20
+
+    while (true){
+        let (ret, payHisArr) = paymentManager.getPaymentHistory(token: "", 
+                                                            pageIdx: pageIdx, 
+                                                            pageItemCount: pageItemCount)
+        if ret != SecuXRequestResult.SecuXRequestOK{
+            print("get payment history failed \(ret)")
+            return
+        }
+        
+        var idx = 0
+        for payHis in payHisArr{
+            print("\(idx) \(payHis.coinType) \(payHis.token) \(payHis.transactionTime) 
+                   \(payHis.amount) \(payHis.detailsUrl)")
+            idx += 1
+        }
+        
+        if payHisArr.count < pageItemCount{
+            break
+        }
+        
+        pageIdx += 1
+    }
+```
 
 5. <b>Get payment history via transaction code</b>
 #### <u>Declaration</u>
+```swift
+    func getPaymentHistory(token:String, transactionCode:String)
+                                    ->(SecuXRequestResult, SecuXPaymentHistory?)
+```
 #### <u>Parameter</u>
+```
+    token: Payment token, e.g. SPC, DCT
+    transactionCode: Payment transaction code from SecuXPaymentManagerDelegate when payment done
+```
 #### <u>Return value</u>
+```
+    SecuXRequestResult shows the operation result. If the result is SecuXRequestOK, payment history is in the returned SecuXPaymentHistory object.
+```
 #### <u>Sample</u>
+```swift
+    let (ret, payhis) = self.paymentManager.getPaymentHistory(token:"SPC", 
+                                                    transactionCode: transactionCode)
+    if ret == SecuXRequestResult.SecuXRequestOK, let his = payhis{
+        print("payment detail: \(his.amount) \(his.storeName) \(his.storeID) 
+                               \(his.storeTel) \(his.storeAddress)")
+    }
+```
 
 ## Author
 
