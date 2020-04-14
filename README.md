@@ -24,7 +24,7 @@ it, simply add the following line to your Podfile:
 
 ![Screenshot](Readme_PlistImg.png)
 
-### Import the the module
+### Import the module
 
 ```swift 
     import SecuXPaymentKit
