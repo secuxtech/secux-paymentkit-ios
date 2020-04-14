@@ -79,8 +79,8 @@ Use SecuXAccountManager object to do the operations below
 #### <u>Declaration</u>
 ```swift
     func registerUserAccount(userAccount: SecuXUserAccount, 
-                            coinType: String, 
-                            token: String) -> (SecuXRequestResult, Data?)
+                                coinType: String, 
+                                   token: String) -> (SecuXRequestResult, Data?)
 ```
 
 #### <u>Parameters</u>
@@ -100,8 +100,8 @@ Use SecuXAccountManager object to do the operations below
 ```swift
     let usrAcc = SecuXUserAccount(email: name, password: pwd)
     var (ret, data) = accManager.registerUserAccount(userAccount: usrAcc, 
-                                                     coinType: "DCT", 
-                                                     token: "SPC")
+                                                        coinType: "DCT", 
+                                                           token: "SPC")
     
     if ret == SecuXRequestResult.SecuXRequestOK{
         //Login the account
@@ -175,7 +175,7 @@ Must successfully login the server before calling the function
 ```swift
     let (ret, data) = accManager.getCoinAccountList(userAccount: usrAcc)
     if ret == SecuXRequestResult.SecuXRequestOK{    
-        for coinAcc in theUserAccount!.coinAccountArray{
+        for coinAcc in usrAcc.coinAccountArray{
             let tokenArr = coinAcc.tokenBalanceDict.keys
             for token in tokenArr{
                 print("coin/token account: \(coinAcc.coinType) \(token)")
@@ -195,8 +195,8 @@ Must successfully login the server before calling the function
 #### <u>Declaration</u>
 ```swift
     func getAccountBalance(userAccount:SecuXUserAccount, 
-                           coinType: String? = nil, 
-                           token: String? = nil) -> (SecuXRequestResult, Data?)
+                              coinType: String? = nil, 
+                                 token: String? = nil) -> (SecuXRequestResult, Data?)
 ```
 #### <u>Parameter</u>
 ```
@@ -228,7 +228,8 @@ Must successfully login the server before calling the function
     
     let coinAcc = usrAcc.getCoinAccount(coinType: "DCT")
     if let tokenBal = coinAcc.tokenBalanceDict["SPC"]{
-        print("\(coinAcc.coinType) \(token) \(tokenBal.theBalance) \(tokenBal.theFormattedBalance) \(tokenBal.theUsdBalance)")
+        print("\(coinAcc.coinType) \(token) \(tokenBal.theBalance) 
+               \(tokenBal.theFormattedBalance) \(tokenBal.theUsdBalance)")
     }
 ```
 
@@ -348,7 +349,8 @@ Use SecuXPaymentManager object to do the operations below
         let storeData = storeInfo.data(using: String.Encoding.utf8),
         let coinTokenArray = supportedCoinTokenArray, coinTokenArray.count > 0,
         let storeInfoJson = try? JSONSerialization.jsonObject(with: storeData, options: []) as? [String:Any],
-        let storeName = storeInfoJson["name"] as? String else{
+        let storeName = storeInfoJson["name"] as? String,
+        let deviceID = storeInfoJson["deviceId"] as? String else{
             self.showMessageInMainThread(title: "Get store information from server failed!", message: "")
             return
     }
