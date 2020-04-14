@@ -33,7 +33,7 @@ class ViewController: UIViewController {
     
     //Try account related functions
     func doAccountActions(){
-        theUserAccount = SecuXUserAccount(email: "maochuntest9@secuxtech.com", phone: "0975123456", password: "12345678")
+        theUserAccount = SecuXUserAccount(email: "maochuntest1@secuxtech.com", phone: "0975123456", password: "12345678")
         //Get all server supported coin and token
         
         let (getCoinTokenRet, coinTokenReplyData, coinTokenArray) = accountManager.getSupportedCoinTokenArray()
@@ -106,6 +106,7 @@ class ViewController: UIViewController {
             }
         }
         
+        /*
         //Transfer
         let (reqret, reqdata, transRet) = accountManager.doTransfer(coinType: "DCT", token: "SPC", feeSymbol: "SFC", amount: "1.2", receiver: "maochuntest7@secuxtech.com")
         guard reqret == SecuXRequestResult.SecuXRequestOK else{
@@ -142,7 +143,7 @@ class ViewController: UIViewController {
             
             pageIdx += 1
         }
-        
+        */
     }
     
     //Try payment related functions
@@ -175,7 +176,7 @@ class ViewController: UIViewController {
         }
         
         //Pay to store
-        let paymentInfo = "{\"amount\":\"1.5\", \"coinType\":\"DCT\", \"token\":\"SPC\",\"deviceIDhash\":\"04793D374185C2167A420D250FFF93F05156350C\"}"
+        let paymentInfo = "{\"amount\":\"1.5\", \"coinType\":\"DCT\", \"token\":\"SPC\",\"deviceIDhash\":\"f962639145992d7a710d33dcca503575eb85d759\"}"
         let (ret, data) = paymentManager.getPaymentInfo(paymentInfo: paymentInfo)
         if ret == SecuXRequestResult.SecuXRequestOK, let data = data{
             print("get payment info. done")
@@ -188,28 +189,36 @@ class ViewController: UIViewController {
                 print("Response has no hashed devID")
                 return
             }
-            let (reqRet, storeInfo, img, supportedCoinTokenArr) = paymentManager.getStoreInfo(devID: devIDHash)
-            if reqRet == SecuXRequestResult.SecuXRequestOK, storeInfo.count > 0, let _ = img, let payInfo = String(data:data, encoding: String.Encoding.utf8){
-                print("get store info. done ")
-                
-                if let coinTokenArr = supportedCoinTokenArr{
-                    print("coinToken arr = \(coinTokenArr)")
-                    
-                    for coinToken in coinTokenArr{
-                    
-                        if self.theUserAccount?.supportToken(coin: coinToken.coin, token: coinToken.token) ?? false{
-                            paymentManager.doPaymentAsync(storeInfo: storeInfo, paymentInfo: payInfo)
-                            return
-                        }
-                    }
-                    
-                    
-                }
-                print("No supported coin and token")
-                
-            }else{
-                print("get store info. failed")
+            
+          
+            let (reqRet, storeInfo, img, supportedCoinTokenArray) = paymentManager.getStoreInfo(devID: devIDHash)
+            guard reqRet == SecuXRequestResult.SecuXRequestOK, storeInfo.count > 0, let imgStore = img,
+                let storeData = storeInfo.data(using: String.Encoding.utf8),
+                let coinTokenArray = supportedCoinTokenArray, coinTokenArray.count > 0,
+                let storeInfoJson = try? JSONSerialization.jsonObject(with: storeData, options: []) as? [String:Any],
+                let storeName = storeInfoJson["name"] as? String,
+                let deviceID = storeInfoJson["deviceId"] as? String else{
+                    print("Get store information from server failed!")
+                    return
             }
+            
+             
+            print("Get store info. done! storename=\(storeName) supportedCoinTokenArr=\(coinTokenArray)")
+            
+            var payinfoDict = [String : String]()
+            payinfoDict["amount"] = "12"
+            payinfoDict["coinType"] = "DCT"
+            payinfoDict["token"] = "SPC"
+            payinfoDict["deviceID"] = deviceID
+            
+            guard let jsonData = try? JSONSerialization.data(withJSONObject: payinfoDict, options: []),
+                let paymentInfo = String(data: jsonData, encoding: String.Encoding.utf8) else{
+                    self.showMessage(title: "Invalid payment information", message: "Payment abort!")
+                    return
+            }
+            self.paymentManager.doPaymentAsync(storeInfo: storeInfo, paymentInfo: paymentInfo)
+            
+    
         }else{
             print("get payment info. from server failed")
         }
