@@ -385,7 +385,7 @@ Use SecuXPaymentManager object to do the operations below
 ```
 ```
     paymentDone: Called when payment is completed. 
-                 Returns payment result and error message.
+                 Returns payment result and an error message.
 
     updatePaymentStatus: Called when payment status is changed. 
                          Payment status are: 
