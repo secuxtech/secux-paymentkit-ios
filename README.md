@@ -50,7 +50,9 @@ Use SecuXAccountManager object to do the operations below
 
 #### <u>Return value</u>
 ```
-    SecuXRequestResult shows the operation result, if the result is not  SecuXRequestResult.SecuXRequestOK, data shall contains the error message.  Otherwise, the returned array shall contain all the supported coin and token pairs.
+    SecuXRequestResult shows the operation result, if the result is not  
+    SecuXRequestResult.SecuXRequestOK, data shall contains the error message.  
+    Otherwise, the returned array shall contain all the supported coin and token pairs.
 ```
 
 #### <u>Sample</u>
