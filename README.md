@@ -49,7 +49,9 @@ Use SecuXAccountManager object to do the operations below
 ```
 
 #### <u>Return value</u>
-        SecuXRequestResult shows the operation result, if the result is not SecuXRequestResult.SecuXRequestOK, data shall contains the error message. Otherwise, the returned array shall contain all the supported coin and token pairs.
+```
+    SecuXRequestResult shows the operation result, if the result is not SecuXRequestResult.SecuXRequestOK, data shall contains the error message. Otherwise, the returned array shall contain all the supported coin and token pairs.
+```
 
 #### <u>Sample</u>
 ```swift
@@ -80,12 +82,16 @@ Use SecuXAccountManager object to do the operations below
 ```
 
 #### <u>Parameters</u>
-        userAccount: A SecuXUserAccount object with login name and password  
-        coinType:    CoinType string  
-        token:       Token string
+```
+    userAccount: A SecuXUserAccount object with login name and password  
+    coinType:    CoinType string  
+    token:       Token string
+```
 
 #### <u>Return value</u>
-        SecuXRequestResult shows the operation result. If the result is SecuXRequestOK, registration is successful, otherwise data might contain an error message.
+```
+    SecuXRequestResult shows the operation result. If the result is SecuXRequestOK, registration is successful, otherwise data might contain an error message.
+```
 
 #### <u>Sample</u>
 ```swift
@@ -112,10 +118,14 @@ Use SecuXAccountManager object to do the operations below
     func loginUserAccount(userAccount:SecuXUserAccount) -> (SecuXRequestResult, Data?)
 ```
 #### <u>Parameter</u>
-        userAccount: A SecuXUserAccount object with login name and password  
+```
+    userAccount: A SecuXUserAccount object with login name and password  
+```
 
 #### <u>Return value</u>
-        SecuXRequestResult shows the operation result. If the result is SecuXRequestOK, login is successful, otherwise data might contain an error message.
+```
+    SecuXRequestResult shows the operation result. If the result is SecuXRequestOK, login is successful, otherwise data might contain an error message.
+```
 
 #### <u>Sample</u>
 ```swift
@@ -137,7 +147,7 @@ Use SecuXAccountManager object to do the operations below
     }
 ```
 
-4. <b>Get coin/token account list</b>
+4. <b>Get coin/token account list</b>  
 Must successfully login the server before calling the function
 
 #### <u>Declaration</u>
@@ -145,10 +155,14 @@ Must successfully login the server before calling the function
     func getCoinAccountList(userAccount:SecuXUserAccount) -> (SecuXRequestResult, Data?)
 ```
 #### <u>Parameter</u>
-        userAccount: Successfully logined user account.
+```
+    userAccount: Successfully logined user account.
+```
 
 #### <u>Return value</u>
-        SecuXRequestResult shows the operation result. If the result is SecuXRequestOK, getting coin/token account information is successful and coin/token account information is in the user account's coinAccountArray, otherwise data might contain an error message.
+```
+    SecuXRequestResult shows the operation result. If the result is SecuXRequestOK, getting coin/token account information is successful and coin/token account information is in the user account's coinAccountArray, otherwise data might contain an error message.
+```
 
 #### <u>Sample</u>
 ```swift
@@ -178,12 +192,16 @@ Must successfully login the server before calling the function
                            token: String? = nil) -> (SecuXRequestResult, Data?)
 ```
 #### <u>Parameter</u>
-        userAccount: A SecuXUserAccount object with login name and password  
-        coinType:    CoinType string  
-        token:       Token string
+```
+    userAccount: A SecuXUserAccount object with login name and password  
+    coinType:    CoinType string  
+    token:       Token string
+```
 
 #### <u>Return value</u>
-        SecuXRequestResult shows the operation result. If the result is SecuXRequestOK, getting coin/token account balance is successful and coin/token account balance can be found in the user account's coinAccountArray, otherwise data might contain an error message.
+```
+    SecuXRequestResult shows the operation result. If the result is SecuXRequestOK, getting coin/token account balance is successful and coin/token account balance can be found in the user account's coinAccountArray, otherwise data might contain an error message.
+```
 
 #### <u>Sample</u>
 ```swift
@@ -208,28 +226,195 @@ Must successfully login the server before calling the function
 
 Use SecuXPaymentManager object to do the operations below
 
+```swift
     let paymentManager = SecuXPaymentManager()
+```
 
-1. <b>Parsing payment QRCode</b>
+1. <b>Parsing payment QRCode / NFC message</b>
 #### <u>Declaration</u>
+```swift
+    func getPaymentInfo(paymentInfo: String)->(SecuXRequestResult, Data?)
+```
 #### <u>Parameter</u>
+```
+    paymentInfo: Payment QRCode from P20/P22, or NFC string from P20/P22
+```
 #### <u>Return value</u>
+```
+    SecuXRequestResult shows the operation result. If the result is SecuXRequestOK, parsing payment information is successful and data contains decoded payment information in JSON format , otherwise data might contain an error message.
+
+    Sample return JSON format
+    {
+        "amount": "10",
+        "coinType": "DCT:SPC",
+        "deviceID": "4ab10000726b",
+        "deviceIDhash": "41193D32D520E114A3730D458F4389B5B9A7114D"
+    }
+
+    Note: "amount" and "coinType" are optional, QRCode from P20 will not generate these items.
+```
 #### <u>Sample</u>
+```swift
+    let (ret, data) = paymentManager.getPaymentInfo(paymentInfo: paymentInfo)
+    if ret == SecuXRequestResult.SecuXRequestOK, let data = data{
+        print("get payment info. done")
+        guard let responseJson = try? JSONSerialization.jsonObject(with: data, options: []) as? [String:Any] else{
+            print("Invalid json response from server")
+            return
+        }
+        
+        guard let devIDHash = responseJson["deviceIDhash"] as? String else{
+            print("Response has no hashed devID")
+            return
+        }
+
+        var amount = "0"
+        if let amountinfo = payinfoJson["amount"] as? String, amountinfo != "null"{
+            amount = amountinfo
+        }
+        
+        var cointype = ""
+        var token = ""
+        if let type = payinfoJson["coinType"] as? String, type != "null"{
+            
+            if let pos = type.firstIndex(of: ":"){
+                cointype = String(type[..<pos])
+                token = String(type[type.index(after: pos)...])
+            }
+        }       
+    }
+```
 
 2. <b>Get store information</b>
 #### <u>Declaration</u>
+```swift
+    func getStoreInfo(devID:String) -> (SecuXRequestResult, String, UIImage?, 
+                                        [(coin:String, token:String)]?)
+```
 #### <u>Parameter</u>
+```
+    devID: Hashed device ID from getPaymentInfo function
+```
 #### <u>Return value</u>
+```
+    SecuXRequestResult shows the operation result. If the result is SecuXRequestOK, getting store information is successful, otherwise data might contain an error message.
+
+    For eample:
+    let (reqRet, storeInfo, img, supportedCoinTokenArray) = paymentManager.getStoreInfo(devID: devIDHash)
+
+    reqRet: SecuXRequestResult
+    storeInfo: Store information in JSON format
+    img: Store logo in UIImage
+    supportedCoinTokenArray: 
+
+```
 #### <u>Sample</u>
+```swift
+    let (reqRet, storeInfo, img, supportedCoinTokenArray) = paymentManager.getStoreInfo(devID: devIDHash)
+    guard reqRet == SecuXRequestResult.SecuXRequestOK, storeInfo.count > 0, 
+        let imgStore = img,
+        let storeData = storeInfo.data(using: String.Encoding.utf8),
+        let coinTokenArray = supportedCoinTokenArray, coinTokenArray.count > 0,
+        let storeInfoJson = try? JSONSerialization.jsonObject(with: storeData, options: []) as? [String:Any],
+        let storeName = storeInfoJson["name"] as? String else{
+            self.showMessageInMainThread(title: "Get store information from server failed!", message: "")
+            return
+    }
+```
 
 3. <b>Do payment</b>
+#### <u>Declaration</u>
+```swift
+    func doPaymentAsync(storeInfo: String, paymentInfo: String)
+```
+#### <u>Parameter</u>
+```
+    storeInfo: Store information JSON string from getStoreInfo function
+    paymentInfo: Payment information JSON string 
+
+
+```
+#### <u>Delegate</u>
+```swift
+    protocol SecuXPaymentManagerDelegate{
+        func paymentDone(ret: Bool, transactionCode:String, errorMsg: String)
+        func updatePaymentStatus(status: String)
+    }
+```
+```
+    paymentDone: Called when payment is completed. 
+                 Returns payment result and error message.
+
+    updatePaymentStatus: Called when payment status is changed. 
+                         Payment status are: 
+                         "Device connecting...", 
+                         "DCT transferring..."  
+                         "Device verifying..."
+
+```
+
+#### <u>Sample</u>
+
+```swift
+
+class ViewController: UIViewController {
+
+    ...
+
+    func doPayment(){
+
+        ...
+
+        var payinfoDict = [String : String]()
+        payinfoDict["amount"] = self.amount
+        payinfoDict["coinType"] = self.coinType
+        payinfoDict["token"] = self.token
+        payinfoDict["deviceID"] = self.deviceID
+        
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: payinfoDict, options: []),
+            let paymentInfo = String(data: jsonData, encoding: String.Encoding.utf8) else{
+                self.showMessage(title: "Invalid payment information", message: "Payment abort!")
+                return
+        }
+
+        paymentManager.doPaymentAsync(storeInfo: self.storeInfo, 
+                                    paymentInfo: paymentInfo)
+    }
+
+}
+
+extension ViewController: SecuXPaymentManagerDelegate{
+    
+    func paymentDone(ret: Bool, transactionCode: String, errorMsg: String) {
+        print("paymentDone \(ret) \(transactionCode) \(errorMsg)")
+        
+        if ret{
+            
+            showMessage(title: "Payment success!", message: "")
+            let (ret, payhis) = self.paymentManager.getPaymentHistory(token:"SPC", transactionCode: transactionCode)
+            if ret == SecuXRequestResult.SecuXRequestOK, let his = payhis{
+                print("payment detail: \(his.amount) \(his.storeName) \(his.storeID) \(his.storeTel) \(his.storeAddress)")
+            }
+        }else{
+            showMessage(title: "Payment fail!", message:errorMsg)
+        }
+    }
+    
+    func updatePaymentStatus(status: String) {
+        print("updatePaymentStatus \(status)")
+    }
+}
+
+```
+
+
+4. <b>Get all payment history</b>
 #### <u>Declaration</u>
 #### <u>Parameter</u>
 #### <u>Return value</u>
 #### <u>Sample</u>
 
-
-3. <b>Get payment history</b>
+5. <b>Get payment history via transaction code</b>
 #### <u>Declaration</u>
 #### <u>Parameter</u>
 #### <u>Return value</u>
