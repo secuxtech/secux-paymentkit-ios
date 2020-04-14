@@ -52,7 +52,7 @@ Use SecuXAccountManager object to do the operations below
 ```
     SecuXRequestResult shows the operation result, if the result is  
     SecuXRequestResult.SecuXRequestOK, the returned array contains all the supported 
-    coin and token pairs, otherwise data might contain error message.  
+    coin and token pairs, otherwise data might contain an error message.  
 ```
 
 #### <u>Sample</u>
@@ -86,7 +86,7 @@ Use SecuXAccountManager object to do the operations below
 #### <u>Parameters</u>
 ```
     userAccount: A SecuXUserAccount object with login name and password  
-    coinType:    CoinType string  
+    coinType:    Coin type string  
     token:       Token string
 ```
 
@@ -168,7 +168,7 @@ Must successfully login the server before calling the function
     SecuXRequestResult shows the operation result. If the result is SecuXRequestOK, 
     getting coin/token account information is successful and coin/token account 
     information is in the user account's coinAccountArray, otherwise data might contain  
-    error message.
+    an error message.
 ```
 
 #### <u>Sample</u>
@@ -210,7 +210,7 @@ Must successfully login the server before calling the function
     SecuXRequestResult shows the operation result. If the result is SecuXRequestOK, 
     getting coin/token account balance is successful and coin/token account balance can 
     be found in the user account's coinAccountArray, otherwise data might contain 
-    error message.
+    an error message.
 ```
 
 #### <u>Sample</u>
@@ -322,6 +322,23 @@ Use SecuXPaymentManager object to do the operations below
     img:        Store logo in UIImage
     supportedCoinTokenArray: Coin/token(s) accepted by the store
 
+    Sample storeInfo json format:
+    {
+        "storeCode": "568a88ed64b5426eb747f7db00763494",
+        "name": "SecuX Cafe",
+        "deviceId": "4ab10000726b",
+        "icon": ".....",
+        "scanTimeout": 10,
+        "checkRSSI": -80,
+        "connectionTimeout": 30,
+        "supportedSymbol": [
+            [
+            "DCT",
+            "SPC"
+            ]
+        ]
+    }
+
 ```
 #### <u>Sample</u>
 ```swift
@@ -344,8 +361,20 @@ Use SecuXPaymentManager object to do the operations below
 ```
 #### <u>Parameter</u>
 ```
-    storeInfo: Store information JSON string from getStoreInfo function
-    paymentInfo: Payment information JSON string 
+    storeInfo:   Store information JSON string from getStoreInfo function
+    paymentInfo: Payment information JSON string. 
+
+    Sample paymentInfo json format:
+
+    {
+        "amount" : "12",
+        "deviceID" : "ffff619c6d40",   
+        "token" : "SPC",
+        "coinType" : "DCT"
+    }
+
+    Note: deviceID is from storeInfo json, e.g.
+    let deviceID = storeInfoJson["deviceId"] as? String
 ```
 #### <u>Delegate</u>
 ```swift
@@ -379,10 +408,10 @@ class ViewController: UIViewController {
         ...
 
         var payinfoDict = [String : String]()
-        payinfoDict["amount"] = self.amount
-        payinfoDict["coinType"] = self.coinType
-        payinfoDict["token"] = self.token
-        payinfoDict["deviceID"] = self.deviceID
+        payinfoDict["amount"] = "12"
+        payinfoDict["coinType"] = "DCT"
+        payinfoDict["token"] = "SPC"
+        payinfoDict["deviceID"] = deviceID
         
         guard let jsonData = try? JSONSerialization.data(withJSONObject: payinfoDict, options: []),
             let paymentInfo = String(data: jsonData, encoding: String.Encoding.utf8) else{
