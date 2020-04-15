@@ -173,7 +173,8 @@ Must successfully login the server before calling the function
     information is in the user account's coinAccountArray, otherwise data might contain  
     an error message.
 
-    Note: if return result is SecuXRequestNoToken / SecuXRequestUnauthorized, the login  session is timeout, please relogin the system.
+    Note: if return result is SecuXRequestNoToken / SecuXRequestUnauthorized, the login 
+    session is timeout, please relogin the system.
 ```
 
 #### <u>Sample</u>
