@@ -218,7 +218,8 @@ Must successfully login the server before calling the function
     be found in the user account's coinAccountArray, otherwise data might contain 
     an error message.
 
-    Note: if return result is SecuXRequestNoToken / SecuXRequestUnauthorized, the login  session is timeout, please relogin the system.
+    Note: if return result is SecuXRequestNoToken / SecuXRequestUnauthorized, the login 
+    session is timeout, please relogin the system.
 ```
 
 #### <u>Sample</u>
@@ -264,7 +265,8 @@ Use SecuXPaymentManager object to do the operations below
     parsing payment information is successful and data contains decoded payment 
     information in JSON format , otherwise data might contain an error message.
 
-    Note: if return result is SecuXRequestNoToken / SecuXRequestUnauthorized, the login  session is timeout, please relogin the system.
+    Note: if return result is SecuXRequestNoToken / SecuXRequestUnauthorized, the login 
+    session is timeout, please relogin the system.
 
     Sample return JSON format
     {
@@ -324,7 +326,8 @@ Use SecuXPaymentManager object to do the operations below
     SecuXRequestResult shows the operation result. If the result is SecuXRequestOK, 
     getting store information is successful, otherwise data might contain an error message.
 
-    Note: if return result is SecuXRequestNoToken / SecuXRequestUnauthorized, the login  session is timeout, please relogin the system.
+    Note: if return result is SecuXRequestNoToken / SecuXRequestUnauthorized, the login 
+    session is timeout, please relogin the system.
 
     For eample:
     let (reqRet, storeInfo, img, supportedCoinTokenArray) 
@@ -482,7 +485,8 @@ extension ViewController: SecuXPaymentManagerDelegate{
     objects in the return array less than the input pageItemCount, there is no 
     more history items. 
 
-    Note: if return result is SecuXRequestNoToken / SecuXRequestUnauthorized, the login  session is timeout, please relogin the system.
+    Note: if return result is SecuXRequestNoToken / SecuXRequestUnauthorized, the login 
+    session is timeout, please relogin the system.
 ```
 #### <u>Sample</u>
 ```swift
@@ -530,7 +534,8 @@ extension ViewController: SecuXPaymentManagerDelegate{
     SecuXRequestResult shows the operation result. If the result is SecuXRequestOK, 
     payment history is in the returned SecuXPaymentHistory object.
 
-    Note: if return result is SecuXRequestNoToken / SecuXRequestUnauthorized, the login  session is timeout, please relogin the system.
+    Note: if return result is SecuXRequestNoToken / SecuXRequestUnauthorized, the login 
+    session is timeout, please relogin the system.
 ```
 #### <u>Sample</u>
 ```swift
