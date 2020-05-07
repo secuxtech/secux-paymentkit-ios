@@ -27,10 +27,21 @@ it, simply add the following line to your Podfile:
 ### Import the module
 
 ```swift 
-    import SecuXPaymentKit
+    import secux_paymentkit
 ```
 
 ## Usage
+
+### Server URL
+        Set server URL before using the APIs below
+
+#### <u>Declaration</u>
+```swift
+    func setBaseServer(url:String)
+```
+
+#### <u>Parameters</u>
+        Server URL. e.g. https://pmsweb-test.secux.io
 
 
 ### SecuXAccount related operations
@@ -268,6 +279,7 @@ Use SecuXPaymentManager object to do the operations below
     Note: if return result is SecuXRequestNoToken / SecuXRequestUnauthorized, the login 
     session is timeout, please relogin the system.
 
+
     Sample return JSON format
     {
         "amount": "10",
@@ -275,7 +287,7 @@ Use SecuXPaymentManager object to do the operations below
         "deviceID": "4ab10000726b",
         "deviceIDhash": "41193D32D520E114A3730D458F4389B5B9A7114D"
     }
-
+    
     Note: "amount" and "coinType" are optional, QRCode from P20 will not generate 
     these items.
 ```
