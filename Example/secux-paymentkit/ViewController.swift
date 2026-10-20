@@ -20,10 +20,16 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         
         self.paymentManager.delegate = self
-        DispatchQueue.global(qos: .default).async {
-            self.doAccountActions()
-            self.doPaymentActions()
-        }
+        // Configure disposable test credentials before explicitly running a demo action.
+    }
+
+    func configureDemo(account: SecuXUserAccount, adminName: String, adminPassword: String) -> Bool {
+        guard !account.name.isEmpty, !account.password.isEmpty,
+              !adminName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
+              !adminPassword.isEmpty else { return false }
+        theUserAccount = account
+        accountManager.setAdminAccount(name: adminName, password: adminPassword)
+        return true
     }
 
     override func didReceiveMemoryWarning() {
@@ -33,7 +39,7 @@ class ViewController: UIViewController {
     
     //Try account related functions
     func doAccountActions(){
-        theUserAccount = SecuXUserAccount(email: "maochuntest1@secuxtech.com", phone: "0975123456", password: "12345678")
+        guard theUserAccount != nil else { return }
         //Get all server supported coin and token
         
         let (getCoinTokenRet, coinTokenReplyData, coinTokenArray) = accountManager.getSupportedCoinTokenArray()
@@ -66,8 +72,6 @@ class ViewController: UIViewController {
             return
         }
         
-        //(ret, data) = accountManager.changePassword(oldPwd: "12345678", newPwd: "123456")
-        //(ret, data) = accountManager.changePassword(oldPwd: "123456", newPwd: "12345678")
         
         
         
@@ -148,6 +152,7 @@ class ViewController: UIViewController {
     
     //Try payment related functions
     func doPaymentActions(){
+        guard theUserAccount != nil else { return }
         
         //Get payment history
         print("get payment history")

@@ -134,19 +134,8 @@ open class RestRequestHandler {
                     taskRet = SecuXRequestResult.SecuXRequestUnauthorized
                     
                 }else{
-                    logw("Error: \(error?.localizedDescription ?? "") url request response \(request) \(response.statusCode)")
                     
-                    if let url = request.url{
-                        logw("request url = \(url)")
-                    }
-                    
-                    if let bodyData = request.httpBody, let dataStr = String(data: bodyData, encoding: String.Encoding.utf8){
-                        logw("\(dataStr)")
-                        
-                    }
-                    
-                    if let data = data, let dataStr = String(data: data, encoding: String.Encoding.utf8){
-                        logw("\(dataStr)")
+                    if let data = data, String(data: data, encoding: String.Encoding.utf8) != nil {
                         
                         dataRet = data
                     }
