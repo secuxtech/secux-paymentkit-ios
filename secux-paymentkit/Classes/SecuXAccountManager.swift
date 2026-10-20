@@ -15,6 +15,11 @@ open class SecuXAccountManager{
         
     }
     
+    /// Supply fresh credentials at runtime. No administrator default is provided.
+    public func setAdminAccount(name: String, password: String) {
+        secuXSvrReqHandler.setAdminAccount(name: name, password: password)
+    }
+
     public func setBaseServer(url:String){
         logw("setBaseServer \(url)")
         SecuXServerRequestHandler.baseURL = url

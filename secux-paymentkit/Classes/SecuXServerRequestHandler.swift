@@ -30,9 +30,18 @@ class SecuXServerRequestHandler: RestRequestHandler {
     
     private static var theToken = ""
     
+    private var adminAccountName = ""
+    private var adminAccountPassword = ""
+
+    func setAdminAccount(name: String, password: String) {
+        adminAccountName = name
+        adminAccountPassword = password
+    }
+
     func getAdminToken() -> String?{
         logw("getAdminToken")
-        let param = ["account": "secux_register", "password":"!secux_register@123"]
+        guard !adminAccountName.isEmpty, !adminAccountPassword.isEmpty else { return nil }
+        let param = ["account": adminAccountName, "password": adminAccountPassword]
         let (ret, data) = self.postRequestSync(urlstr: SecuXServerRequestHandler.adminLoginUrl, param: param)
         if ret == SecuXRequestResult.SecuXRequestOK, let tokenData = data{
             
